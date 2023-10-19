@@ -3,45 +3,40 @@ import 'package:flutter/material.dart';
 import 'package:dynamic_widget/dynamic_widget.dart';
 
 void main() {
-  runApp( MyApp());
+  runApp(MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   final String jsonWidgetTree = '''
-  {
-    "type": "Column",
-    "children": [
-      {
-        "type": "Text",
-        "data": "Hello, World!",
-        "style": {
-          "fontSize": 24,
-        }
-      },
-      {
-        "type": "Container",
-        "child": {
-          "type": "Text",
-          "data": "This is a red container",
-          "style": {
-            "fontSize": 16,
-          }
-        }
-      }
-    ]
-  }
-  ''';
-
+{
+  "type": "Column",
+  "crossAxisAlignment": "start",
+  "mainAxisAlignment": "start",
+  "mainAxisSize": "max",
+  "textBaseline": "alphabetic",
+  "textDirection": "ltr",
+  "verticalDirection": "down",
+  "children":[
+    {
+      "type" : "Text",
+      "data" : "Flutter"
+    },
+    {
+      "type" : "Text",
+      "data" : "Demo"
+    }
+  ]
+}
+''';
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Widget Tree from JSON'),
-        ),
-         body: FutureBuilder<Widget>(
-        future: _buildWidget(context,jsonWidgetTree),
+        home: Scaffold(
+      appBar: AppBar(
+        title: Text('Widget Tree from JSON'),
+      ),
+      body: FutureBuilder<Widget>(
+        future: _buildWidget(context, jsonWidgetTree),
         builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
           if (snapshot.hasError) {
             print(snapshot.error);
@@ -54,24 +49,20 @@ class MyApp extends StatelessWidget {
         },
       ),
     ));
-
-     
   }
 
-  Future<Widget> _buildWidget(BuildContext context,jsonString) async {
-  Widget ?widget =  DynamicWidgetBuilder.build(jsonString, context, new DefaultClickListener());
-  if (widget != null) {
-    return widget;
-  } else {
-    return Container(); // Return a default widget when null is encountered.
+  Future<Widget> _buildWidget(BuildContext context, jsonString) async {
+    Widget? widget = DynamicWidgetBuilder.build(
+        jsonString, context, new DefaultClickListener());
+    if (widget != null) {
+      return widget;
+    } else {
+      return Container(); // Return a default widget when null is encountered.
+    }
   }
-}
   //  Future<Widget> _buildWidget(BuildContext context,jsonString) async {
 
-    
-   
   // }
-
 
   // Widget buildWidgetsFromJson(String json) {
   //   try {
@@ -113,13 +104,11 @@ class MyApp extends StatelessWidget {
   //   }
   //   return Container(); // Default empty container if the type is unknown
   // }
-
 }
 
-class DefaultClickListener implements ClickListener{
+class DefaultClickListener implements ClickListener {
   @override
   void onClicked(String? event) {
     print("Receive click event: " + event!);
   }
-
 }
