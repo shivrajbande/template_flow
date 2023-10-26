@@ -1,0 +1,24 @@
+{
+    "widgetkey" : 
+    {
+      "type": "Column",
+      "crossAxisAlignment": "start",
+      "mainAxisAlignment": "start",
+      "mainAxisSize": "max",
+      "textBaseline": "alphabetic",
+      "textDirection": "ltr",
+      "verticalDirection": "down",
+      "children":[
+        {
+          "type" : "Text",
+          "data" : "Flutter"
+        },
+        {
+          "type" : "Text",
+          "data" : "Demo"
+        }
+      ]
+    },
+
+"wergerg":"fgdfgdfg"
+}
