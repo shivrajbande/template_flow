@@ -1,9 +1,14 @@
 import 'dart:convert';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:flutter/services.dart';
+import 'package:template_flow/firebase_options.dart';
 
-void main() {
+void main()async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
   runApp(MyApp());
 }
 
@@ -17,7 +22,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<String> generateCode() async {
     try {
-      final String jsonstring = await rootBundle.loadString('json/code.json');
+      final String jsonstring = await rootBundle.loadString('assets/json/code.json');
       Map<String, dynamic> jsondata = jsonDecode(jsonstring);
       print(jsondata["widgetkey"]);
       return jsonEncode(jsondata["widgetkey"]);
@@ -29,6 +34,7 @@ class _MyAppState extends State<MyApp> {
 
   getCodeFromFile() async {
     final val = await generateCode();
+    
     setState(() {
       jsonWidgetTree = val;
     });

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "844394528658",
+    "project_id": "braneflow",
+    "storage_bucket": "braneflow.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:844394528658:android:8e0974589dad9742e58b4b",
+        "android_client_info": {
+          "package_name": "com.example.template_flow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "844394528658-8v1c7d92726snm01a35c9tifua8b1cjd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsjxm6X-fWv0xLtjqV7YM6c3QxdqZ2rEQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "844394528658-8v1c7d92726snm01a35c9tifua8b1cjd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
