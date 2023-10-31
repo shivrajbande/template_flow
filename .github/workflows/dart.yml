@@ -3,16 +3,20 @@ name: Build Flutter APK's and App bundle
 on:
   workflow_dispatch:
     inputs:
-      package_name:
-        description: 'Custom package name for the build'
+      client_name: 
+        description: 'Client Id for Identifying Unique User'
         required: true
         type: string
-      organization_code:
-        description: 'Organization code for the build'
+      project_id:
+        description: 'Project ID for indexing in DB for the build'
+        required: true
+        type: string
+      package_name:
+        description: 'Package name for the build'
         required: true
         type: string
       app_name:
-        description: 'New app name'
+        description: 'App Name/Label'
         required: true
         type: string
 
@@ -49,18 +53,19 @@ jobs:
       - name: Create APK Config JSON
         run: |
           echo '{
+            "client_name": "${{inputs.client_name}}",
+            "project_id": "${{ inputs.project_id }}",
             "package_name": "${{ inputs.package_name }}",
-            "organization_code": "${{ inputs.organization_code }}",
             "app_name": "${{ inputs.app_name }}"
-          }' > apk.config.json
+          }' > code.json
           git config user.name "hemos811"
           git config user.email "811.hemanthkumar@gmail.com"
-          git add apk.config.json
-          git commit -m "Added apk.config.json"
+          git add code.json
+          git commit -m "Added code.json using WorkFlow"
           git push
 
-      - name: Show APK Config JSON File
-        run: cat apk.config.json
+      - name: Show Code JSON File
+        run: cat code.json
 
       - name: Use Input Values
         run: |
