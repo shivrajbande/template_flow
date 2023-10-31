@@ -33,6 +33,7 @@ dependencies:
   json_dynamic_widget: ^7.0.3
   dynamic_widget: ^4.0.5
   firebase_core: ^2.20.0
+  cloud_firestore: ^4.12.1
 
 
   # The following adds the Cupertino Icons font to your application.
