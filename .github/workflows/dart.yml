@@ -53,8 +53,8 @@ jobs:
             "organization_code": "${{ inputs.organization_code }}",
             "app_name": "${{ inputs.app_name }}"
           }' > apk.config.json
-          git config user.name "Coder"
-          git config user.email "gitCoder@example.com"
+          git config user.name "hemos811"
+          git config user.email "811.hemanthkumar@gmail.com"
           git add apk.config.json
           git commit -m "Added apk.config.json"
           git push
@@ -92,3 +92,6 @@ jobs:
           git add apk/*.apk
           git commit -m "Added Changed APK files"
           git push
+
+
+          
