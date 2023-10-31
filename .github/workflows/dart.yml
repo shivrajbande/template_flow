@@ -1,68 +1,94 @@
 name: Build Flutter APK's and App bundle
- 
+
 on:
- 
   workflow_dispatch:
     inputs:
       package_name:
         description: 'Custom package name for the build'
         required: true
         type: string
- 
+      organization_code:
+        description: 'Organization code for the build'
+        required: true
+        type: string
+      app_name:
+        description: 'New app name'
+        required: true
+        type: string
+
 jobs:
   build:
     runs-on: ubuntu-latest
- 
+
     steps:
       - name: Check out the repository
         uses: actions/checkout@v3
+
       - uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
           java-version: '11'
- 
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
           flutter-version: '3.13.6'
-      - run:
+
+      - run: 
           yes | flutter doctor --android-licenses
           flutter doctor -v
- 
+
       - name: Install Flutter dependencies
-        run:
+        run: 
           flutter pub get
- 
+
       - name: Create 'apk' Folder if Not Exist
         run: mkdir -p apk
- 
-      - name: Use Input Value
+
+      - name: Create APK Config JSON
+        run: |
+          echo '{
+            "package_name": "${{ inputs.package_name }}",
+            "organization_code": "${{ inputs.organization_code }}",
+            "app_name": "${{ inputs.app_name }}"
+          }' > apk.config.json
+          git config user.name "Coder"
+          git config user.email "gitCoder@example.com"
+          git add apk.config.json
+          git commit -m "Added apk.config.json"
+          git push
+
+      - name: Show APK Config JSON File
+        run: cat apk.config.json
+
+      - name: Use Input Values
         run: |
           PACKAGE_NAME="${{ inputs.package_name }}"
+          APP_NAME="${{ inputs.app_name }}"
           echo "Using package name provided in workflow dispatch: $PACKAGE_NAME"
-          flutter pub run change_app_package_name:main $PACKAGE_NAME
+          echo "Using app name provided in workflow dispatch: $APP_NAME"
+          dart run rename_app:main all="$APP_NAME"
+          flutter pub run change_app_package_name:main "$PACKAGE_NAME"
           git add .
           git status
           git branch
           flutter doctor -v
-                   
+
       - name: Build APK
         run: flutter build apk --split-per-abi --release
- 
+
       - name: Move APK Files to 'apk' Folder
         run: mv build/app/outputs/apk/release/*.apk apk/
-     
+
       - name: List Changed Files
         run: git status
- 
+
       - name: List Staged Files
         run: git diff --cached --name-only
- 
+
       - name: Commit APKs to Repository
         run: |
-          git config user.name "Coder"
-          git config user.email "gitCoder@example.com"
           git add apk/*.apk
           git commit -m "Added Changed APK files"
           git push
