@@ -1,29 +1,7 @@
 {
-    "widgetkey" : 
-    {
-      "type": "Column",
-      "crossAxisAlignment": "start",
-      "mainAxisAlignment": "start",
-      "mainAxisSize": "max",
-      "textBaseline": "alphabetic",
-      "textDirection": "ltr",
-      "verticalDirection": "down",
-      "children":[
-        {
-          "type" : "Text",
-          "data" : "Flutter"
-        },
-        {
-          "type" : "Text",
-          "data" : "Demo"
-        }
-      ]
-    },
-
-"client_name":"shiva",
-"project_id":"fbebae38-5549-4f75-a862-ee3d5d6f70c8",
-"package_name":"com.package.blue",
-"app_name":"color app",
-"client_id":"91U6RFcZDbBSHcA6VoY6"
-
+  "client_name": "Shiva",
+  "client_id": "tAniogaNGDZ9PMHWts3k",
+  "project_id": "d2009eef-e790-4d2a-84a7-42d4af770b9d",
+  "package_name": "com.mycompany.demo",
+  "app_name": "demo"
 }
