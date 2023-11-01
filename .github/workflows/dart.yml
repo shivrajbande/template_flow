@@ -70,7 +70,7 @@ jobs:
           git push
 
       - name: Show Code JSON File
-        run: cat code.json
+        run: cat assets/json/code.json
 
       - name: Use Input Values
         run: |
