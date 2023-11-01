@@ -65,7 +65,7 @@ jobs:
           }' > assets/json/code.json
           git config user.name "hemos811"
           git config user.email "811.hemanthkumar@gmail.com"
-          git add code.json
+          git add assets/json/code.json
           git commit -m "Added code.json using WorkFlow"
           git push
 
