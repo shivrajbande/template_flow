@@ -97,6 +97,13 @@ jobs:
           git add apk/*.apk
           git commit -m "Added Changed APK files"
           git push
-
+     
+      - name: Upload APK Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: apks
+          path: apk/*.apk
+          retention-days: 5
+  
 
           
