@@ -39,6 +39,8 @@ class _MyAppState extends State<MyApp> {
 ''';
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   late DynamicWidgetJsonExportor? _exportor;
+
+
   Future<String> getClientDetails() async {
     String? appName;
     String? packageName;
@@ -67,7 +69,7 @@ class _MyAppState extends State<MyApp> {
       projectData.forEach((project) {
         if (project["projectId"] == projectId) {
           projectCode = project["projectCode"];
-          print(projectCode);
+          // projectCode = jsonDecode(projectCode!);
         }
       });
     } catch (e) {
@@ -80,12 +82,13 @@ ${projectCode}
 
   getCodeFromFile() async {
     final val = await getClientDetails();
+    jsonWidgetTree = val;
   }
 
   @override
   void initState() {
     super.initState();
-    getCodeFromFile();
+    // getCodeFromFile();
   }
 
   @override
@@ -96,7 +99,7 @@ ${projectCode}
         title: Text('Widget Tree from JSON'),
       ),
       body: FutureBuilder<Widget>(
-        future: _buildWidget(context, jsonWidgetTree),
+        future: _buildWidget(context),
         builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
           if (snapshot.hasError) {
             print(snapshot.error);
@@ -111,14 +114,23 @@ ${projectCode}
     ));
   }
 
-  Future<Widget> _buildWidget(BuildContext context, jsonString) async {
-    Widget? widget = DynamicWidgetBuilder.build(
-        jsonString, context, new DefaultClickListener());
-    if (widget != null) {
-      return widget;
-    } else {
-      return Container(); // Return a default widget when null is encountered.
-    }
+  Future<Widget> _buildWidget(BuildContext context) async {
+    return FutureBuilder<String>(
+      future: getClientDetails(),
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        if (snapshot.hasError) {
+          print(snapshot.error);
+        } else if (snapshot.hasData) {
+          Widget? widget = DynamicWidgetBuilder.build(
+              snapshot.data!, context, new DefaultClickListener());
+          return widget!;
+        } else {
+          return Container();
+        }
+        return Container();
+      },
+    );
+
   }
 }
 
