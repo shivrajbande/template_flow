@@ -20,5 +20,9 @@
       ]
     },
 
-"clientkey":"shiva"
+"client_name":"shiva",
+"project_id":23489896234,
+"package_name":"com.package.blue",
+"app_name":"color app"
+
 }
