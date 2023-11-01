@@ -60,7 +60,8 @@ class _MyAppState extends State<MyApp> {
       CollectionReference users =
           FirebaseFirestore.instance.collection('users');
       var data = await users.doc(clientId).get();
-      Map<String, dynamic> storedClientDetails = data.data() as Map<String, dynamic>;
+      Map<String, dynamic> storedClientDetails =
+          data.data() as Map<String, dynamic>;
 
       var projectData = storedClientDetails["projects"];
       projectData.forEach((project) {
@@ -73,21 +74,7 @@ class _MyAppState extends State<MyApp> {
       print("Error is : ${e}");
     }
     return '''
-{
-  "type": "Container",
-  "color": "#FF00FF",
-  "alignment": "center",
-  "child": {
-    "type": "Text", flutter run --release
-    "data": "Flutter dynamic widget",
-    "maxLines": 3,
-    "overflow": "ellipsis",
-    "style": {
-      "color": "#00FFFF",
-      "fontSize": 20.0
-    }
-  }
-}
+${projectCode}
 ''';
   }
 
@@ -98,7 +85,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-     getCodeFromFile();
+    getCodeFromFile();
   }
 
   @override
