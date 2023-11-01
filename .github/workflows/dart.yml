@@ -4,6 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       client_name: 
+        description: 'Client Name'
+        required: true
+        type: string
+      client_id: 
         description: 'Client Id for Identifying Unique User'
         required: true
         type: string
@@ -54,10 +58,11 @@ jobs:
         run: |
           echo '{
             "client_name": "${{inputs.client_name}}",
+            "client_id": "${{inputs.client_id}}",
             "project_id": "${{ inputs.project_id }}",
             "package_name": "${{ inputs.package_name }}",
             "app_name": "${{ inputs.app_name }}"
-          }' > code.json
+          }' > assets/json/code.json
           git config user.name "hemos811"
           git config user.email "811.hemanthkumar@gmail.com"
           git add code.json
