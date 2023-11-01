@@ -7,6 +7,7 @@ import 'package:template_flow/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -19,24 +20,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String? jsonWidgetTree ;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  late DynamicWidgetJsonExportor? _exportor;
-
-  Future<String> generateCode() async {
-    try {
-      CollectionReference users =
-          FirebaseFirestore.instance.collection('users');
-      var data = await users.doc("YWLMWGt2Zv9qoiCGdRuj").get();
-      Map<String, dynamic> clientDetails = data.data() as Map<String, dynamic>;
-      // return Text("Full Name: ${data['full_name']} ${data['last_name']}");
-      print(clientDetails['clientName']);
-      Map<String, dynamic> projectData = clientDetails["projects"][0];
-      print(projectData["projectId"]);
-    } catch (e) {
-      print("Error is : ${e}");
-    }
-    return '''
+  String? jsonWidgetTree = '''
 {
   "type": "Container",
   "color": "#FF00FF",
@@ -52,22 +36,69 @@ class _MyAppState extends State<MyApp> {
     }
   }
 }
+''';
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  late DynamicWidgetJsonExportor? _exportor;
+  Future<String> getClientDetails() async {
+    String? appName;
+    String? packageName;
+    String? projectId;
+    String? projectCode;
+    String? clientName;
+    String? clientId;
 
+    final clientDetails = await rootBundle.loadString("assets/json/code.json");
+    var clientjson = jsonDecode(clientDetails);
+    print(clientjson['client_name']);
+    appName = clientjson['app_name'];
+    packageName = clientjson['package_name'];
+    projectId = clientjson['project_id'];
+    clientName = clientjson['client_name'];
+    clientId = clientjson['client_id'];
+
+    try {
+      CollectionReference users =
+          FirebaseFirestore.instance.collection('users');
+      var data = await users.doc(clientId).get();
+      Map<String, dynamic> storedClientDetails = data.data() as Map<String, dynamic>;
+
+      var projectData = storedClientDetails["projects"];
+      projectData.forEach((project) {
+        if (project["projectId"] == projectId) {
+          projectCode = project["projectCode"];
+          print(projectCode);
+        }
+      });
+    } catch (e) {
+      print("Error is : ${e}");
+    }
+    return '''
+{
+  "type": "Container",
+  "color": "#FF00FF",
+  "alignment": "center",
+  "child": {
+    "type": "Text", flutter run --release
+    "data": "Flutter dynamic widget",
+    "maxLines": 3,
+    "overflow": "ellipsis",
+    "style": {
+      "color": "#00FFFF",
+      "fontSize": 20.0
+    }
+  }
+}
 ''';
   }
 
   getCodeFromFile() async {
-    final val = await generateCode();
-
-    setState(() {
-      jsonWidgetTree = val;
-    });
+    final val = await getClientDetails();
   }
 
   @override
   void initState() {
     super.initState();
-    getCodeFromFile();
+     getCodeFromFile();
   }
 
   @override
