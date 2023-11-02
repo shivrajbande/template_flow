@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp> {
     try {
       CollectionReference users =
           FirebaseFirestore.instance.collection('users');
-      var data = await users.doc("sJ98nWu5u6jYRM36yLI7").get();
+      var data = await users.doc(clientId).get();
       Map<String, dynamic> storedClientDetails =
           data.data() as Map<String, dynamic>;
 
