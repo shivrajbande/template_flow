@@ -86,7 +86,7 @@ jobs:
           flutter doctor -v
 
       - name: Build APK
-        run: flutter build apk --split-per-abi --release
+        run: flutter build apk --release
 
       - name: Move APK Files to 'apk' Folder
         run: mv build/app/outputs/apk/release/*.apk apk/
@@ -109,6 +109,22 @@ jobs:
           name: apks
           path: apk/*.apk
           retention-days: 5
+      - name: Send email with Nightly APK link
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.SENDER_MAIL }}
+          password: ${{ secrets.MAIL_TRIGGER_APP_PASSWORD }}
+          subject: "Nightly APK Build on ${{ github.repository }}: Success"
+          body: |
+              Workflow: ${{ github.workflow }}
+              Repository: ${{ github.repository }}
+              Status: Success
+              APK Download Link:  https://nightly.link/${{ github.repository }}/actions/runs/${{ github.run_id }}/apks.zip
+          to: ${{ secrets.CLIENT_TRIGGER_ADDRESS1 }}
+          cc: ${{ secrets.CLIENT_TRIGGER_ADDRESS2 }}
+          from: ${{ secrets.SENDER_MAIL }}
   
 
           
