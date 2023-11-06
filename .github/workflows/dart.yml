@@ -122,8 +122,8 @@ jobs:
               Repository: ${{ github.repository }}
               Status: Success
               APK Download Link:  https://nightly.link/${{ github.repository }}/actions/runs/${{ github.run_id }}/apks.zip
-          to: ${{ secrets.CLIENT_TRIGGER_ADDRESS1 }}
-          cc: ${{ secrets.CLIENT_TRIGGER_ADDRESS2 }}
+          to: ${{ secrets.CLIENT_MAIL_ADDRESS1 }}
+          cc: ${{ secrets.CLIENT_MAIL_ADDRESS2 }}
           from: ${{ secrets.SENDER_MAIL }}
   
 
