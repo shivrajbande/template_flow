@@ -81,7 +81,7 @@ ${projectCode}
         if (snapshot.hasError) {
           print(snapshot.error);
         }
-        return snapshot.hasData ? snapshot.data! : Text("Loading...");
+        return snapshot.hasData ? snapshot.data! : CircularProgressIndicator();
       },
     ));
   }
