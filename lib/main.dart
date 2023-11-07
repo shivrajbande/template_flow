@@ -20,23 +20,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String? jsonWidgetTree = '''
-{
-  "type": "Container",
-  "color": "#FF00FF",
-  "alignment": "center",
-  "child": {
-    "type": "Text",
-    "data": "Flutter dynamic widget",
-    "maxLines": 3,
-    "overflow": "ellipsis",
-    "style": {
-      "color": "#00FFFF",
-      "fontSize": 20.0
-    }
-  }
-}
-''';
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   late DynamicWidgetJsonExportor? _exportor;
 
@@ -65,7 +48,11 @@ class _MyAppState extends State<MyApp> {
 
       var projectData = storedClientDetails["projects"];
       projectData.forEach((project) {
-        projectCode = project["projectCode"];
+        if (projectId == project["projectId"]) {
+          projectCode = project["projectCode"];
+        } else {
+          print("no project id matched");
+        }
       });
     } catch (e) {
       print("Error is : ${e}");
@@ -77,52 +64,32 @@ ${projectCode}
 
   Future<Widget> getCodeFromFile(BuildContext context) async {
     final String val = await getClientDetails();
-    return _buildWidget(context,val);
+    return _buildWidget(context, val);
   }
 
   @override
   void initState() {
     super.initState();
-    // getCodeFromFile();
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Scaffold(
-      appBar: AppBar(
-        title: Text('Apk Generation App'),
-      ),
-      body: FutureBuilder<Widget>(
-        future: getCodeFromFile(context),
-        builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-          if (snapshot.hasError) {
-            print(snapshot.error);
-          }
-          return snapshot.hasData?snapshot.data! 
-              : Text("Loading...");
-        },
-      ),
+        home: FutureBuilder<Widget>(
+      future: getCodeFromFile(context),
+      builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+        if (snapshot.hasError) {
+          print(snapshot.error);
+        }
+        return snapshot.hasData ? snapshot.data! : Text("Loading...");
+      },
     ));
   }
 
-  Future<Widget> _buildWidget(BuildContext context,String jsonstring) async {
+  Future<Widget> _buildWidget(BuildContext context, String jsonstring) async {
     Widget? widget = DynamicWidgetBuilder.build(
         jsonstring, context, new DefaultClickListener());
     return widget!;
-    // return FutureBuilder<String>(
-    //   future: getClientDetails(),
-    //   builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-    //     if (snapshot.hasError) {
-    //       print(snapshot.error);
-    //     } else if (snapshot.hasData) {
-
-    //     } else {
-    //       return Container();
-    //     }
-    //     return Container();
-    //   },
-    // );
   }
 }
 
