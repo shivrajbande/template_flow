@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:dynamic_widget/dynamic_widget/utils.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,7 +13,7 @@ class ListViewWidgetParser extends WidgetParser {
       ClickListener? listener) {
     var scrollDirection = Axis.vertical;
     if (map.containsKey("scrollDirection") &&
-        "horizontal" == map["scrollDirection"]) {
+        "Horizontal" == map["scrollDirection"]) {
       scrollDirection = Axis.horizontal;
     }
 
@@ -45,7 +45,10 @@ class ListViewWidgetParser extends WidgetParser {
         loadMoreUrl: loadMoreUrl,
         isDemo: isDemo);
 
-    return new ListViewWidget(params, buildContext);
+    return Container(
+      height: MediaQuery.of(buildContext).size.height,
+      width: MediaQuery.of(buildContext).size.width/3.2,
+      child: new ListViewWidget(params, buildContext));
   }
 
   @override

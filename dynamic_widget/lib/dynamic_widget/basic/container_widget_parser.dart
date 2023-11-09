@@ -1,5 +1,6 @@
 import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:dynamic_widget/dynamic_widget/utils.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ContainerWidgetParser extends WidgetParser {
@@ -8,6 +9,13 @@ class ContainerWidgetParser extends WidgetParser {
       ClickListener? listener) {
     Alignment? alignment = parseAlignment(map['alignment']);
     Color? color = parseHexColor(map['color']);
+    Color? borderColor = 
+    // parseHexColor(map['borderColor']);
+    (map.containsKey('borderColor')
+        ? parseHexColor(map['borderColor'])!
+        // : Color(0xFF000000)) ; 
+       : Color(0xFFFFFF)) ; 
+        //as Color? "#2196f3"
     BoxConstraints constraints = parseBoxConstraints(map['constraints']);
     //TODO: decoration, foregroundDecoration and transform properties to be implemented.
     EdgeInsetsGeometry? margin = parseEdgeInsetsGeometry(map['margin']);
@@ -19,16 +27,31 @@ class ContainerWidgetParser extends WidgetParser {
 
     String? clickEvent =
         map.containsKey("click_event") ? map['click_event'] : null;
+    
 
     var containerWidget = Container(
       alignment: alignment,
       padding: padding,
-      color: color,
+      // color: color,
       margin: margin,
       width: map['width']?.toDouble(),
       height: map['height']?.toDouble(),
       constraints: constraints,
+       decoration: 
+      BoxDecoration(
+        color: color,
+        border: Border.all(  
+          //  color: const Color(0xFF000000),//borderColor!, 
+          color: borderColor,
+          width: map['borderWidth']?.toDouble() ?? 1.0)
+      ),
+      // decoration: BoxDecoration(
+      //     border: Border.all(
+      //       width:map['width']?.toDouble(),
+      //     )
+      // ),
       child: child,
+     
     );
 
     if (listener != null && clickEvent != null) {
@@ -68,6 +91,15 @@ class ContainerWidgetParser extends WidgetParser {
           : null,
       "constraints":
           constraints != null ? exportConstraints(constraints) : null,
+      "borderWidth": realWidget.decoration != null
+          ? (realWidget.decoration as BoxDecoration).border!.top.width
+          : null,
+      // "borderColor": realWidget.color != null
+      //     ? realWidget.color!.value.toRadixString(16)
+      //     : null,
+      "borderColor": realWidget.decoration != null && realWidget.decoration is BoxDecoration
+      ? (realWidget.decoration as BoxDecoration).border!.top.color.value.toRadixString(16)
+      : null,
       "child": DynamicWidgetBuilder.export(realWidget.child, buildContext)
     };
   }

@@ -7,10 +7,11 @@ import 'package:flutter/widgets.dart';
 class TextFieldWidgetParser implements WidgetParser {
   TextEditingController? controller;
 
+
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
       ClickListener? listener) {
-
+        String border="none";
     controller = TextEditingController(text: map['controllerText']); 
     String? textAlignString = map['textAlign'];
     int? maxLines = map['maxLines'];
@@ -26,6 +27,9 @@ class TextFieldWidgetParser implements WidgetParser {
         textDirection: parseTextDirection(textDirectionString),
         maxLines: maxLines,
         minLines: minLines,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+        ),
         onChanged: ((value) {
            listener!.onClicked(clickEvent);
           //  controller?.text= "data";
@@ -50,6 +54,7 @@ class TextFieldWidgetParser implements WidgetParser {
             : "start",
         "maxLines": realWidget.maxLines,
         "minLines": realWidget.minLines,
+        "decoration": InputDecoration(),
         "textDirection": exportTextDirection(realWidget.textDirection),
         "style": exportTextStyle(realWidget.style),
       };
@@ -62,5 +67,3 @@ class TextFieldWidgetParser implements WidgetParser {
   @override
   bool matchWidgetForExport(Widget? widget) => widget is TextField;
 }
-
-

@@ -240,6 +240,8 @@ TextStyle? parseTextStyle(Map<String, dynamic>? map) {
   String? fontFamily = map['fontFamily'];
   double? fontSize = map['fontSize']?.toDouble();
   String? fontWeight = map['fontWeight'];
+  double? letterSpacing = map['letterSpacing']?.toDouble();
+  double? lineHeight = map['lineHeight']?.toDouble();
   FontStyle fontStyle =
       'italic' == map['fontStyle'] ? FontStyle.italic : FontStyle.normal;
 
@@ -248,6 +250,8 @@ TextStyle? parseTextStyle(Map<String, dynamic>? map) {
     debugLabel: debugLabel,
     decoration: parseTextDecoration(decoration),
     fontSize: fontSize,
+    letterSpacing: letterSpacing,
+    height: lineHeight,
     fontFamily: fontFamily,
     fontStyle: fontStyle,
     fontWeight: parseFontWeight(fontWeight),
@@ -266,6 +270,8 @@ Map<String, dynamic>? exportTextStyle(TextStyle? textStyle) {
     "debugLabel": textStyle.debugLabel,
     "decoration": exportTextDecoration(textStyle.decoration),
     "fontSize": textStyle.fontSize,
+    "letterSpacing": textStyle.letterSpacing,
+    "lineHeight": textStyle.height,
     "fontFamily": textStyle.fontFamily,
     "fontStyle": FontStyle.italic == textStyle.fontStyle ? "italic" : "normal",
     "fontWeight": exportFontWeight(textStyle.fontWeight),

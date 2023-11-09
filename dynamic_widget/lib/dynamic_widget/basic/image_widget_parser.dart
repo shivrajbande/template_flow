@@ -23,6 +23,7 @@ class AssetImageWidgetParser extends WidgetParser {
         map.containsKey('colorBlendMode') ? parseBlendMode(map['colorBlendMode']) : null;
     BoxFit? fit =
         map.containsKey('fit') ? parseBoxFit(map['fit']) : null;
+
     Alignment alignment = map.containsKey('alignment')
         ? parseAlignment(map['alignment'])!
         : Alignment.center;
@@ -53,6 +54,7 @@ class AssetImageWidgetParser extends WidgetParser {
       color: color,
       colorBlendMode: colorBlendMode,
       fit: fit,
+      
       alignment: alignment,
       repeat: repeat,
       centerSlice: centerSlice,
