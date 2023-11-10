@@ -1,4 +1,4 @@
-package com.mycompany.demo
+package com.mycompany.zomo
 
 import io.flutter.embedding.android.FlutterActivity
 
