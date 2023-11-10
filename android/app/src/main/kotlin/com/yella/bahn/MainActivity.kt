@@ -1,4 +1,4 @@
-package com.mycompany.demo
+package com.yella.bahn
 
 import io.flutter.embedding.android.FlutterActivity
 
