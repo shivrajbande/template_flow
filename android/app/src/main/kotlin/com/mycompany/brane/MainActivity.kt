@@ -1,4 +1,4 @@
-package com.yella.bahn
+package com.mycompany.brane
 
 import io.flutter.embedding.android.FlutterActivity
 
