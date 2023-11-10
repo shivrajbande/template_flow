@@ -10,6 +10,7 @@ class ElevatedButtonParser extends WidgetParser {
   @override
   Map<String, dynamic>? export(Widget? widget, BuildContext? buildContext) {
     var realWidget = widget as ElevatedButton;
+
     var color = realWidget.style?.foregroundColor != null
         ? realWidget.style?.foregroundColor
             ?.resolve(MaterialState.values.toSet())
@@ -89,14 +90,15 @@ class ElevatedButtonParser extends WidgetParser {
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
       ClickListener? listener) {
     double topLeftRadius =
-        (map['borderRadius'] as Map<String, dynamic>)['topLeft'];
+        (map['borderRadius'] as Map<String, dynamic>)['topLeft'].toDouble();
     double topRightRadius =
-        (map['borderRadius'] as Map<String, dynamic>)['topRight'];
+        (map['borderRadius'] as Map<String, dynamic>)['topRight'].toDouble();
     double bottomLeftRadius =
-        (map['borderRadius'] as Map<String, dynamic>)['bottomLeft'];
+        (map['borderRadius'] as Map<String, dynamic>)['bottomLeft'].toDouble();
     double bottomRightRadius =
-        (map['borderRadius'] as Map<String, dynamic>)['bottomRight'];
-    double borderWidth = map['borderWidth'] ?? 0.0;
+        (map['borderRadius'] as Map<String, dynamic>)['bottomRight'].toDouble();
+    double borderWidth = map['borderWidth'].toDouble() ?? 0.0;
+    double elevation = map["elevation"].toDouble() ?? 0.0;
     Color? borderColor =
         parseHexColor(map['borderColor']); // Access borderColor
 
@@ -117,9 +119,9 @@ class ElevatedButtonParser extends WidgetParser {
         shadowColor: map.containsKey("shadowColor")
             ? parseHexColor(map["shadowColor"])
             : null,
-        elevation: map.containsKey("elevation") ? map["elevation"] : null,
+        elevation: map.containsKey("elevation") ? elevation : null,
         padding: map.containsKey("padding")
-            ? parseEdgeInsetsGeometry(map["padding"])
+            ? parseEdgeInsetsGeometry(map["padding"].toDouble())
             : null,
         textStyle: map.containsKey("textStyle")
             ? parseTextStyle(map["textStyle"])

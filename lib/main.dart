@@ -42,15 +42,14 @@ class _MyAppState extends State<MyApp> {
     try {
       CollectionReference users =
           FirebaseFirestore.instance.collection('users');
-      var data = await users.doc(clientId).get();
+      DocumentSnapshot data = await users.doc(clientId).get();
       Map<String, dynamic> storedClientDetails =
           data.data() as Map<String, dynamic>;
 
       var projectData = storedClientDetails["projects"];
       projectData.forEach((project) {
-         projectCode = project["projectCode"];
+        projectCode = project["projectCode"];
         if (projectId == project["projectId"]) {
-         
         } else {
           print("no project id matched");
         }
@@ -59,7 +58,7 @@ class _MyAppState extends State<MyApp> {
       print("Error is : ${e}");
     }
     return '''
-${projectCode}
+   ${projectCode}
 ''';
   }
 

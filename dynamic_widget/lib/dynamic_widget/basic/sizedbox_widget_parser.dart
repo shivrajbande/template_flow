@@ -45,8 +45,8 @@ class SizedBoxWidgetParser extends WidgetParser {
     var realWidget = widget as SizedBox;
     return <String, dynamic>{
       "type": "SizedBox",
-      "width": realWidget.width,
-      "height": realWidget.height,
+      "width": realWidget.width!.toDouble(),
+      "height": realWidget.height!.toDouble(),
       "child": DynamicWidgetBuilder.export(realWidget.child, buildContext)
     };
   }
