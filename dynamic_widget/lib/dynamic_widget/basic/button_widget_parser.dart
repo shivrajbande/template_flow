@@ -10,7 +10,6 @@ class ElevatedButtonParser extends WidgetParser {
   @override
   Map<String, dynamic>? export(Widget? widget, BuildContext? buildContext) {
     var realWidget = widget as ElevatedButton;
-
     var color = realWidget.style?.foregroundColor != null
         ? realWidget.style?.foregroundColor
             ?.resolve(MaterialState.values.toSet())
@@ -91,6 +90,7 @@ class ElevatedButtonParser extends WidgetParser {
       ClickListener? listener) {
     double topLeftRadius =
         (map['borderRadius'] as Map<String, dynamic>)['topLeft'].toDouble();
+
     double topRightRadius =
         (map['borderRadius'] as Map<String, dynamic>)['topRight'].toDouble();
     double bottomLeftRadius =
@@ -98,7 +98,6 @@ class ElevatedButtonParser extends WidgetParser {
     double bottomRightRadius =
         (map['borderRadius'] as Map<String, dynamic>)['bottomRight'].toDouble();
     double borderWidth = map['borderWidth'].toDouble() ?? 0.0;
-    double elevation = map["elevation"].toDouble() ?? 0.0;
     Color? borderColor =
         parseHexColor(map['borderColor']); // Access borderColor
 
@@ -119,7 +118,8 @@ class ElevatedButtonParser extends WidgetParser {
         shadowColor: map.containsKey("shadowColor")
             ? parseHexColor(map["shadowColor"])
             : null,
-        elevation: map.containsKey("elevation") ? elevation : null,
+        elevation:
+            map.containsKey("elevation") ? map["elevation"].toDouble() : null,
         padding: map.containsKey("padding")
             ? parseEdgeInsetsGeometry(map["padding"].toDouble())
             : null,
