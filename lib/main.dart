@@ -48,8 +48,9 @@ class _MyAppState extends State<MyApp> {
 
       var projectData = storedClientDetails["projects"];
       projectData.forEach((project) {
+         projectCode = project["projectCode"];
         if (projectId == project["projectId"]) {
-          projectCode = project["projectCode"];
+         
         } else {
           print("no project id matched");
         }
