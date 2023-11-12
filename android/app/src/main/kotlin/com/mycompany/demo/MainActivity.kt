@@ -1,4 +1,4 @@
-package com.mycompany.Brane
+package com.mycompany.demo
 
 import io.flutter.embedding.android.FlutterActivity
 
