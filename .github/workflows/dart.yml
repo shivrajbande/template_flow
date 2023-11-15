@@ -67,6 +67,7 @@ jobs:
           git config user.email "811.hemanthkumar@gmail.com"
           git add assets/json/code.json
           git commit -m "Added code.json using WorkFlow"
+          git pull
           git push
 
       - name: Show Code JSON File
@@ -103,6 +104,7 @@ jobs:
         run: |
           git add apk/*.apk
           git commit -m "Added Changed APK files"
+          git pull
           git push
      
       - name: Upload APK Artifacts
