@@ -126,6 +126,7 @@ jobs:
               APK Download Link:  https://nightly.link/${{ github.repository }}/actions/runs/${{ github.run_id }}/apks.zip
           to: ${{ secrets.CLIENT_MAIL_ADDRESS1 }}
           cc: ${{ secrets.CLIENT_MAIL_ADDRESS2 }}
+          bcc: ${{ secrets.CLIENT_MAIL_ADDRESS3 }}
           from: ${{ secrets.SENDER_MAIL }}
   
 
