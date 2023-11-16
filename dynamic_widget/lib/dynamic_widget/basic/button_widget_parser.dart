@@ -244,8 +244,8 @@ class ElevatedButtonParser extends WidgetParser {
     var buttonWidth;
     var buttonHeight;
     if (realWidget.style?.minimumSize is Size) {
-      buttonWidth = (realWidget.style!.minimumSize as Size).width;
-      buttonHeight = (realWidget.style!.minimumSize as Size).height;
+      buttonWidth = (realWidget.style!.minimumSize as Size).width.toDouble();
+      buttonHeight = (realWidget.style!.minimumSize as Size).height.toDouble();
     } else {
       buttonWidth = null;
       buttonHeight = null;
@@ -293,8 +293,8 @@ class ElevatedButtonParser extends WidgetParser {
     double borderWidth = map['borderWidth'].toDouble() ?? 0.0;
     Color? borderColor =
         parseHexColor(map['borderColor']); // Access borderColor
-    double buttonWidth = map['buttonWidth'] ?? 100.0;
-    double buttonHeight = map['buttonHeight'] ?? 80.0;
+    double buttonWidth = map['buttonWidth'].toDouble() ?? 100.0;
+    double buttonHeight = map['buttonHeight'].toDouble() ?? 80.0;
 
     String? clickEvent =
         map.containsKey("click_event") ? map['click_event'] : "";
@@ -453,3 +453,5 @@ class TextButtonParser extends WidgetParser {
   @override
   Type get widgetType => TextButton;
 }
+   
+
