@@ -63,11 +63,13 @@ jobs:
             "package_name": "${{ inputs.package_name }}",
             "app_name": "${{ inputs.app_name }}"
           }' > assets/json/code.json
+          git checkout master
           git config user.name "hemos811"
           git config user.email "811.hemanthkumar@gmail.com"
           git add assets/json/code.json
           git commit -m "Added code.json using WorkFlow"
-          git push
+          git pull origin master
+          git push 
 
       - name: Show Code JSON File
         run: cat assets/json/code.json
@@ -80,6 +82,7 @@ jobs:
           echo "Using app name provided in workflow dispatch: $APP_NAME"
           dart run rename_app:main all="$APP_NAME"
           flutter pub run change_app_package_name:main "$PACKAGE_NAME"
+          git checkout master
           git add .
           git status
           git branch
@@ -101,8 +104,10 @@ jobs:
 
       - name: Commit APKs to Repository
         run: |
+          git checkout master
           git add apk/*.apk
           git commit -m "Added Changed APK files"
+          git pull origin master
           git push
      
       - name: Upload APK Artifacts
