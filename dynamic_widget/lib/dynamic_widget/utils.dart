@@ -74,7 +74,7 @@ TextOverflow? parseTextOverflow(String? textOverflowString) {
 }
 
 String? exportTextOverflow(TextOverflow? textOverflow) {
-  if(textOverflow == null){
+  if (textOverflow == null) {
     return null;
   }
   String rt = "ellipsis";
@@ -216,6 +216,18 @@ String exportFontWeight(FontWeight? fontWeight) {
   }
   return rt;
 }
+//for opacity in elevated button
+// Color? parseHexColor(String? hexColorString, {double opacity = 0.7}) {
+//   if (hexColorString == null) {
+//     return null;
+//   }
+//   hexColorString = hexColorString.toUpperCase().replaceAll("#", "");
+//   if (hexColorString.length == 6) {
+//     hexColorString = "FF" + hexColorString;
+//   }
+//   int colorInt = int.parse(hexColorString, radix: 16);
+//   return Color(colorInt).withOpacity(opacity);
+// }
 
 Color? parseHexColor(String? hexColorString) {
   if (hexColorString == null) {

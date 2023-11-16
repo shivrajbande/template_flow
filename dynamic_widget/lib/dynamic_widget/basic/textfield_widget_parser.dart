@@ -5,30 +5,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class TextFieldWidgetParser implements WidgetParser {
-  TextEditingController? controller;
-
+  TextEditingController? textfieldController;
+  TextEditingController? labeltextfieldController;
+  TextEditingController? hinttextfieldController;
 
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
       ClickListener? listener) {
         String border="none";
-    controller = TextEditingController(text: map['controllerText']); 
+    textfieldController = TextEditingController(text: map['controllerText']); 
+    labeltextfieldController = TextEditingController(text: map['labelText']);
+    hinttextfieldController = TextEditingController(text: map['hintText']);
     String? textAlignString = map['textAlign'];
     int? maxLines = map['maxLines'];
     int? minLines = map['minLines'];
     String? textDirectionString = map['textDirection'];
     String? clickEvent =
         map.containsKey("click_event") ? map['click_event'] : "";
-   
+    
+    
       return TextField(
-        controller: controller, 
+        controller: textfieldController, 
         textAlign: parseTextAlign(textAlignString),
         style: map.containsKey('style') ? parseTextStyle(map['style']) : null,
         textDirection: parseTextDirection(textDirectionString),
         maxLines: maxLines,
         minLines: minLines,
         decoration: InputDecoration(
-          border: OutlineInputBorder(),
+          labelText: labeltextfieldController?.text,
+          hintText: hinttextfieldController?.text,
+         
         ),
         onChanged: ((value) {
            listener!.onClicked(clickEvent);
@@ -48,13 +54,14 @@ class TextFieldWidgetParser implements WidgetParser {
     
       return <String, dynamic>{
         "type": "TextField",
-        "controllerText": controller?.text,
+        "controllerText": textfieldController?.text,
+        "labelText": labeltextfieldController?.text,
+        "hintText": hinttextfieldController?.text,
         "textAlign": realWidget.textAlign != null
             ? exportTextAlign(realWidget.textAlign)
             : "start",
         "maxLines": realWidget.maxLines,
         "minLines": realWidget.minLines,
-        "decoration": InputDecoration(),
         "textDirection": exportTextDirection(realWidget.textDirection),
         "style": exportTextStyle(realWidget.style),
       };
