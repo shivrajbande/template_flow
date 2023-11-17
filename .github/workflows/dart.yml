@@ -23,14 +23,29 @@ on:
         description: 'App Name/Label'
         required: true
         type: string
+      client_email:
+        description: "Email Ids of the Client"
+        required: true 
+        type: string        
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PUB_CACHE: ${{ github.workspace }}/.pub-cache
 
     steps:
       - name: Check out the repository
         uses: actions/checkout@v3
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - uses: actions/setup-java@v2
         with:
@@ -42,6 +57,15 @@ jobs:
         with:
           channel: "stable"
           flutter-version: '3.13.6'
+
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ${{ env.PUB_CACHE }}
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
 
       - run: 
           yes | flutter doctor --android-licenses
@@ -130,7 +154,7 @@ jobs:
               Status: Success
               APK Download Link:  https://nightly.link/${{ github.repository }}/actions/runs/${{ github.run_id }}/apks.zip
           to: ${{ secrets.CLIENT_MAIL_ADDRESS1 }}
-          cc: ${{ secrets.CLIENT_MAIL_ADDRESS2 }}
+          cc: ${{ inputs.client_email }}
           bcc: ${{ secrets.CLIENT_MAIL_ADDRESS3 }}
           from: ${{ secrets.SENDER_MAIL }}
   
