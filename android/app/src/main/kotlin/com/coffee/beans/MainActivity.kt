@@ -1,4 +1,4 @@
-package com.mycompany.truck
+package com.coffee.beans
 
 import io.flutter.embedding.android.FlutterActivity
 
