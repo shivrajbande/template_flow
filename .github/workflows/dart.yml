@@ -92,8 +92,10 @@ jobs:
           git config user.email "811.hemanthkumar@gmail.com"
           git add assets/json/code.json
           git commit -m "Added code.json using WorkFlow"
+          git config pull.rebase true
           git pull origin master
-          git push 
+          git push origin master
+
 
       - name: Show Code JSON File
         run: cat assets/json/code.json
@@ -117,7 +119,7 @@ jobs:
           flutter build apk --release
 
       - name: Move APK Files to 'apk' Folder
-        run: mv build/app/outputs/apk/release/*.apk apk/
+        run: mv build/app/outputs/apk/release/app-release.apk apk/
 
       - name: List Changed Files
         run: git status
@@ -131,7 +133,8 @@ jobs:
           git add apk/*.apk
           git commit -m "Added Changed APK files"
           git pull origin master
-          git push
+          git push origin master
+
      
       - name: Upload APK Artifacts
         uses: actions/upload-artifact@v3
