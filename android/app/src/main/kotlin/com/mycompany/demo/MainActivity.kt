@@ -1,4 +1,4 @@
-package com.mycompany.swito
+package com.mycompany.demo
 
 import io.flutter.embedding.android.FlutterActivity
 
