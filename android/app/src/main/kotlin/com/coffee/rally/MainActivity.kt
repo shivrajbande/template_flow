@@ -1,4 +1,4 @@
-package com.mycompany.demo
+package com.coffee.rally
 
 import io.flutter.embedding.android.FlutterActivity
 
