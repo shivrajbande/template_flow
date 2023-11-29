@@ -10,7 +10,7 @@ class TextWidgetParser implements WidgetParser {
     String? data = map['data'];
     String? textAlignString = map['textAlign'];
     String? overflow = map['overflow'];
-    int? maxLines = map['maxLines'];
+    int? maxLines= map['maxLines'] ?? 1000;
     String? semanticsLabel = map['semanticsLabel'];
     bool? softWrap = map['softWrap'];
     String? textDirectionString = map['textDirection'];

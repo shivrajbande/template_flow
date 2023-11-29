@@ -12,10 +12,10 @@ class AppBarWidgetParser extends WidgetParser {
       "title": realWidget.title == null
           ? null
           : DynamicWidgetBuilder.export(realWidget.title, buildContext),
-      "leading": SizedBox.shrink(),
-      // realWidget.leading == null
-      //     ? null
-      //     : DynamicWidgetBuilder.export(realWidget.leading, buildContext),
+      "leading": 
+      realWidget.leading == null
+          ? null
+          : DynamicWidgetBuilder.export(realWidget.leading, buildContext),
       "actions": realWidget.actions == null
           ? null
           : DynamicWidgetBuilder.exportWidgets(
@@ -35,11 +35,12 @@ class AppBarWidgetParser extends WidgetParser {
           ? DynamicWidgetBuilder.buildFromMap(
               map["title"], buildContext, listener)
           : null,
-      leading: SizedBox.shrink(),
-      //  map.containsKey("leading")
-      //     ? DynamicWidgetBuilder.buildFromMap(
-      //         map["leading"], buildContext, listener)
-      //     : null,
+      leading: 
+      // SizedBox.shrink(),
+       map.containsKey("leading")
+          ? DynamicWidgetBuilder.buildFromMap(
+              map["leading"], buildContext, listener)
+          : null,
       actions: map.containsKey("actions")
           ? DynamicWidgetBuilder.buildWidgets(
               map["actions"], buildContext, listener) as List<Widget>?

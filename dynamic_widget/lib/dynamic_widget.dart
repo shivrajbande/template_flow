@@ -2,7 +2,6 @@ library dynamic_widget;
 
 import 'dart:convert';
 
-import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/align_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/appbar_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/aspectratio_widget_parser.dart';
@@ -20,10 +19,13 @@ import 'package:dynamic_widget/dynamic_widget/basic/image_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/indexedstack_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/limitedbox_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/listtile_widget_parser.dart';
+import 'package:dynamic_widget/dynamic_widget/basic/navigation_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/offstage_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/opacity_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/padding_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/placeholder_widget_parser.dart';
+import 'package:dynamic_widget/dynamic_widget/basic/print_parser.dart';
+import 'package:dynamic_widget/dynamic_widget/basic/radio_button_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/row_column_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/safearea_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/scaffold_widget_parser.dart';
@@ -39,6 +41,7 @@ import 'package:dynamic_widget/dynamic_widget/scrolling/pageview_widget_parser.d
 import 'package:dynamic_widget/dynamic_widget/scrolling/single_child_scroll_view_widget_parser.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
+import 'package:dynamic_widget/dynamic_widget/basic/checkbox_widget_parser.dart';
 
 import 'dynamic_widget/basic/cliprrect_widget_parser.dart';
 import 'dynamic_widget/basic/overflowbox_widget_parser.dart';
@@ -89,7 +92,11 @@ class DynamicWidgetBuilder {
     TextButtonParser(),
     RotatedBoxWidgetParser(),
     CardParser(),
-    SingleChildScrollViewParser()
+    SingleChildScrollViewParser(),
+    PrintParser(),
+    RadioButtonListTileParser(),
+    CheckBoxWidgetParser(),
+    NavigationParser(null,null)
   ];
 
   static final _widgetNameParserMap = <String, WidgetParser>{};
@@ -100,7 +107,7 @@ class DynamicWidgetBuilder {
   static void addParser(WidgetParser parser) {
     log.info(
         "add custom widget parser, make sure you don't overwirte the widget type.");
-    _parsers.add(parser );
+    _parsers.add(parser);
     _widgetNameParserMap[parser.widgetName] = parser;
   }
 

@@ -10,6 +10,7 @@ class IconWidgetParser extends WidgetParser {
     return Icon(
       map.containsKey('data')
           ? getIconUsingPrefix(name: map['data'])
+          //  ? getIconUsingPrefix(name: "close")
           : Icons.android,
       size: map.containsKey("size") ? map['size']?.toDouble() : null,
       color: map.containsKey('color') ? parseHexColor(map['color']) : null,

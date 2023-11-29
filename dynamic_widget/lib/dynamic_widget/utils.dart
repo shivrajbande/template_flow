@@ -324,6 +324,40 @@ Alignment? parseAlignment(String? alignmentString) {
   return alignment;
 }
 
+Alignment? parseAlignmentChild(String? alignmentString) {
+  Alignment? alignment;
+  switch (alignmentString) {
+    case 'Alignment.topLeft':
+      alignment = Alignment.topLeft;
+      break;
+    case 'Alignment.topCenter':
+      alignment = Alignment.topCenter;
+      break;
+    case 'Alignment.topRight':
+      alignment = Alignment.topRight;
+      break;
+    case 'Alignment.centerLeft':
+      alignment = Alignment.centerLeft;
+      break;
+    case 'Alignment.center':
+      alignment = Alignment.center;
+      break;
+    case 'Alignment.centerRight':
+      alignment = Alignment.centerRight;
+      break;
+    case 'Alignment.bottomLeft':
+      alignment = Alignment.bottomLeft;
+      break;
+    case 'Alignment.bottomCenter':
+      alignment = Alignment.bottomCenter;
+      break;
+    case 'Alignment.bottomRight':
+      alignment = Alignment.bottomRight;
+      break;
+  }
+  return alignment;
+}
+
 const double infinity = 9999999999;
 
 BoxConstraints parseBoxConstraints(Map<String, dynamic>? map) {
@@ -1143,6 +1177,45 @@ String exportAlignment(Alignment? alignment) {
 
   return "center";
 }
+
+String exportAlignmentChild(Alignment? alignment) {
+  if (alignment == null) {
+    return "Alignment.center";
+  }
+  if (alignment == Alignment.center) {
+    return "Alignment.center";
+  }
+  if (alignment == Alignment.bottomRight) {
+    return "Alignment.bottomRight";
+  }
+  if (alignment == Alignment.bottomCenter) {
+    return "Alignment.bottomCenter";
+  }
+  if (alignment == Alignment.bottomLeft) {
+    return "Alignment.bottomLeft";
+  }
+  if (alignment == Alignment.centerLeft) {
+    return "Alignment.centerLeft";
+  }
+  if (alignment == Alignment.centerRight) {
+    return "Alignment.centerRight";
+  }
+  if (alignment == Alignment.topCenter) {
+    return "Alignment.topCenter";
+  }
+  if (alignment == Alignment.topLeft) {
+    return "Alignment.topLeft";
+  }
+  if (alignment == Alignment.topRight) {
+    return "Alignment.topRight";
+  }
+  if (alignment == Alignment.bottomRight) {
+    return "Alignment.bottomRight";
+  }
+
+  return "Alignment.center";
+}
+
 
 Map<String, dynamic> exportConstraints(BoxConstraints constraints) {
   return {
