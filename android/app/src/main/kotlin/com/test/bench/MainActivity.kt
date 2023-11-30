@@ -1,4 +1,4 @@
-package com.coffee.rally
+package com.test.bench
 
 import io.flutter.embedding.android.FlutterActivity
 

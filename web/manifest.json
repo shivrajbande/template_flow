@@ -1,6 +1,6 @@
 {
-     "name": "Coffee Rally",
-     "short_name": "Coffee Rally",
+     "name": "test bench",
+     "short_name": "test bench",
      "start_url": ".",
      "display": "standalone",
      "background_color": "#0175C2",
