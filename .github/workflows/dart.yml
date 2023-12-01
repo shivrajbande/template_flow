@@ -15,6 +15,10 @@ on:
         description: 'Project ID for indexing in DB for the build'
         required: true
         type: string
+      project_name:
+        description: 'Project Name for Identifying'
+        required: true
+        type: string
       package_name:
         description: 'Package name for the build'
         required: true
@@ -86,6 +90,7 @@ jobs:
             "project_id": "${{ inputs.project_id }}",
             "package_name": "${{ inputs.package_name }}",
             "app_name": "${{ inputs.app_name }}"
+            "project_name": "${{ inputs.project_name }}"
           }' > assets/json/code.json
           git checkout master
           git config user.name "hemos811"
