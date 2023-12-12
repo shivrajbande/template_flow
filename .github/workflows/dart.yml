@@ -165,5 +165,3 @@ jobs:
           bcc: ${{ secrets.CLIENT_MAIL_ADDRESS3 }}
           from: ${{ secrets.SENDER_MAIL }}
   
-
-          

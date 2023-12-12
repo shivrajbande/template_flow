@@ -15,6 +15,9 @@ class ContainerWidgetParser extends WidgetParser {
             ? parseHexColor(map['borderColor'])!
             // : Color(0xFF000000)) ;
             : Color(0xFFFFFF));
+            Color? boxShadowColor = (map.containsKey('boxShadowColor')
+            ? parseHexColor(map['boxShadowColor'])!
+            : Color(0xFFFFFF));
     //as Color? "#2196f3"
     BoxConstraints constraints = parseBoxConstraints(map['constraints']);
     //TODO: decoration, foregroundDecoration and transform properties to be implemented.
@@ -37,6 +40,12 @@ class ContainerWidgetParser extends WidgetParser {
       height: map['height']?.toDouble(),
       constraints: constraints,
       decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: boxShadowColor,
+           // blurRadius: 
+          )
+        ],
           color: color,
           border: Border.all(
               //  color: const Color(0xFF000000),//borderColor!,
@@ -102,6 +111,7 @@ class ContainerWidgetParser extends WidgetParser {
               .value
               .toRadixString(16)
           : null,
+        
       "child": DynamicWidgetBuilder.export(realWidget.child, buildContext)
     };
   }
