@@ -58,7 +58,65 @@ class _MyAppState extends State<MyApp> {
       print("Error is : ${e}");
     }
     return '''
-   ${projectCode}
+{
+  "type": "Scaffold",
+   "body" :
+     { 
+    "type": "Column",
+    "crossAxisAlignment": "start",
+    "mainAxisAlignment": "start",
+    "mainAxisSize": "max",
+    "textBaseline": "alphabetic",
+    "textDirection": "ltr",
+    "verticalDirection": "down",
+    "children":
+    [ {
+
+  "type":"FlutterSwitch",
+  "activeColor":"#2196f3",
+  "inactiveColor":"#2196f3",
+  "switchBool":true,
+  "androidactiveColor":"#2196f3",
+  "androidInactiveColor":"#2196f3"
+  }
+  ]
+}
+,
+   "appBar":
+{
+  "type": "AppBar",
+  "centerTitle": null,
+  "backgroundColor": "#ffffff",
+  "title" : { 
+    "type": "Column",
+    "crossAxisAlignment": "start",
+    "mainAxisAlignment": "start",
+    "mainAxisSize": "max",
+    "textBaseline": "alphabetic",
+    "textDirection": "ltr",
+    "verticalDirection": "down",
+    "children":
+    []
+}
+,
+  "leading": {
+     
+   "type":"Opacity",
+   "opacity": 1,
+   "child":{
+      "type" : "Icon",
+      "data" : "settings",
+      "size" : 25,
+      "color" : "#2196f3"
+      }
+    } 
+  
+}  
+
+,
+   "backgroundColor" : "#ffffff"
+}
+
 ''';
   }
 

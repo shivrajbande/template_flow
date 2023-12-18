@@ -19,6 +19,7 @@ import 'package:dynamic_widget/dynamic_widget/basic/image_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/indexedstack_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/limitedbox_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/listtile_widget_parser.dart';
+
 import 'package:dynamic_widget/dynamic_widget/basic/navigation_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/offstage_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/opacity_widget_parser.dart';
@@ -42,7 +43,7 @@ import 'package:dynamic_widget/dynamic_widget/scrolling/single_child_scroll_view
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/checkbox_widget_parser.dart';
-import 'package:dynamic_widget/dynamic_widget/basic/switch_widget_parser.dart';
+
 import 'dynamic_widget/basic/cliprrect_widget_parser.dart';
 import 'dynamic_widget/basic/overflowbox_widget_parser.dart';
 import 'dynamic_widget/basic/rotatedbox_widget_parser.dart';
@@ -96,8 +97,8 @@ class DynamicWidgetBuilder {
     PrintParser(),
     RadioButtonListTileParser(),
     CheckBoxWidgetParser(),
-    SwitchWidgetParser(),
-    NavigationParser(null,null)
+    NavigationParser(null,null),
+   
   ];
 
   static final _widgetNameParserMap = <String, WidgetParser>{};
@@ -225,6 +226,7 @@ class NonResponseWidgetClickListener implements ClickListener {
 
   @override
   void onClicked(String? event) {
+    
     log.info("receiver click event: " + event!);
     print("receiver click event: " + event);
   }
