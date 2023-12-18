@@ -318,7 +318,7 @@ class _CustomTextFieldClassState extends State<CustomTextFieldClass> {
   _CustomTextFieldClassState(this.params);
  
   // String initialValue = "radio";
-  bool obscureText = true;
+  bool obscureText = false;
  
   @override
   Widget build(BuildContext context) {
