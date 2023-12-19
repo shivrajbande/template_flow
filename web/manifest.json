@@ -1,6 +1,6 @@
 {
-     "name": "Pepper",
-     "short_name": "Pepper",
+     "name": "demo",
+     "short_name": "demo",
      "start_url": ".",
      "display": "standalone",
      "background_color": "#0175C2",
