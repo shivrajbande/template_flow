@@ -1,4 +1,4 @@
-package com.mycompany.demo
+package com.mycompany.pepper
 
 import io.flutter.embedding.android.FlutterActivity
 
