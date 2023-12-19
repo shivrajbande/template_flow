@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 class TextWidgetParser implements WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     String? data = map['data'];
     String? textAlignString = map['textAlign'];
     String? overflow = map['overflow'];
@@ -103,7 +103,7 @@ class TextSpanParser {
         style: parseTextStyle(map['style']),
         recognizer: TapGestureRecognizer()
           ..onTap = () {
-            listener!.onClicked(clickEvent);
+            listener!.onClicked("TextSpan",clickEvent,{});
           },
         children: []);
 

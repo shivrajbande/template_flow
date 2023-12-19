@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class SelectableTextWidgetParser implements WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener, ProjectInfo projectInfo) {
     String? data = map['data'];
     String? textAlignString = map['textAlign'];
     int? maxLines = map['maxLines'];
@@ -86,7 +86,7 @@ class SelectableTextSpanParser {
         style: parseTextStyle(map['style']),
         recognizer: TapGestureRecognizer()
           ..onTap = () {
-            listener!.onClicked(clickEvent);
+            listener!.onClicked("SelctableText", clickEvent,{});
           },
         children: []);
 

@@ -22,19 +22,19 @@ class ScaffoldWidgetParser extends WidgetParser {
 
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     var scaffoldWidget = Scaffold(
       appBar: map.containsKey("appBar")
           ? DynamicWidgetBuilder.buildFromMap(
-              map["appBar"], buildContext, listener) as PreferredSizeWidget?
+              map["appBar"], buildContext, listener,projectInfo) as PreferredSizeWidget?
           : null,
       body: map.containsKey("body")
           ? DynamicWidgetBuilder.buildFromMap(
-              map["body"], buildContext, listener)
+              map["body"], buildContext, listener,projectInfo)
           : null,
       floatingActionButton: map.containsKey("floatingActionButton")
           ? DynamicWidgetBuilder.buildFromMap(
-              map["floatingActionButton"], buildContext, listener)
+              map["floatingActionButton"], buildContext, listener,projectInfo)
           : null,
       backgroundColor: map.containsKey("backgroundColor")
           ? parseHexColor(map["backgroundColor"])

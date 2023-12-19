@@ -1,0 +1,46 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": "template_flow",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "template_flow (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "template_flow (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "dynamic_widget",
+            "cwd": "dynamic_widget",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "dynamic_widget (profile mode)",
+            "cwd": "dynamic_widget",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "dynamic_widget (release mode)",
+            "cwd": "dynamic_widget",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

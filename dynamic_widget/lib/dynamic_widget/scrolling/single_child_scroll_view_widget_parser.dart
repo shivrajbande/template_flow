@@ -26,7 +26,7 @@ class SingleChildScrollViewParser extends WidgetParser {
 
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     var scrollDirection = Axis.vertical;
     if (map.containsKey("scrollDirection") &&
         "horizontal" == map["scrollDirection"]) {
@@ -45,6 +45,7 @@ class SingleChildScrollViewParser extends WidgetParser {
         map['child'],
         buildContext,
         listener,
+        projectInfo
       ),
     );
   }

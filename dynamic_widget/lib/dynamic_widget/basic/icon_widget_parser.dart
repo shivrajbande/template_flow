@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class IconWidgetParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     return Icon(
       map.containsKey('data')
           ? getIconUsingPrefix(name: map['data'])

@@ -1,5 +1,3 @@
-
-
 import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:dynamic_widget/dynamic_widget/utils.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:dynamic_widget/dynamic_widget/icons_helper.dart';
-
 
 class TextFieldWidgetParser implements WidgetParser {
   TextEditingController? textfieldController;
@@ -33,17 +30,13 @@ class TextFieldWidgetParser implements WidgetParser {
   IconData? suffixIcon;
   double? suffixIconSize;
   Color? suffixIconColor;
- 
+
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
-
-    textfieldController =
-        TextEditingController(text: map['controllerText']);
-    labeltextfieldController =
-        TextEditingController(text: map['labelText']);
-    hinttextfieldController =
-        TextEditingController(text: map['hintText']);
+      ClickListener? listener, ProjectInfo projectInfo) {
+    textfieldController = TextEditingController(text: map['controllerText']);
+    labeltextfieldController = TextEditingController(text: map['labelText']);
+    hinttextfieldController = TextEditingController(text: map['hintText']);
     String? textAlignString = map['textAlign'];
     borderType = map['borderType'];
     borderWidth = map['borderWidth'].toDouble() ?? 100.0;
@@ -63,19 +56,27 @@ class TextFieldWidgetParser implements WidgetParser {
     contentpaddingTop = map['contentpaddingTop']?.toDouble();
     contentpaddingRight = map['contentpaddingRight']?.toDouble();
     contentpaddingBottom = map['contentpaddingBottom']?.toDouble();
-  
-    prefixIcon =  map.containsKey('prefixIcon')
-          ?  getIconUsingPrefix(name: map['prefixIcon'])
-          //  ? getIconUsingPrefix(name: "close")
-          : Icons.android;
-    prefixIconSize = map.containsKey("prefixIconSize") ? map['prefixIconSize']?.toDouble() : null;
-    prefixIconColor = map.containsKey('prefixIconColor') ? parseHexColor(map['prefixIconColor']) : null;
-    suffixIcon =  map.containsKey('suffixIcon')
-          ? getIconUsingPrefix(name: map['suffixIcon'])
-          //  ? getIconUsingPrefix(name: "close")
-          : Icons.android;
-    suffixIconSize = map.containsKey("suffixIconSize") ? map['suffixIconSize']?.toDouble() : null;
-    suffixIconColor = map.containsKey('suffixIconColor') ? parseHexColor(map['suffixIconColor']) : null;
+
+    prefixIcon = map.containsKey('prefixIcon')
+        ? getIconUsingPrefix(name: map['prefixIcon'])
+        //  ? getIconUsingPrefix(name: "close")
+        : Icons.android;
+    prefixIconSize = map.containsKey("prefixIconSize")
+        ? map['prefixIconSize']?.toDouble()
+        : null;
+    prefixIconColor = map.containsKey('prefixIconColor')
+        ? parseHexColor(map['prefixIconColor'])
+        : null;
+    suffixIcon = map.containsKey('suffixIcon')
+        ? getIconUsingPrefix(name: map['suffixIcon'])
+        //  ? getIconUsingPrefix(name: "close")
+        : Icons.android;
+    suffixIconSize = map.containsKey("suffixIconSize")
+        ? map['suffixIconSize']?.toDouble()
+        : null;
+    suffixIconColor = map.containsKey('suffixIconColor')
+        ? parseHexColor(map['suffixIconColor'])
+        : null;
 
     return TextField(
       controller: textfieldController,
@@ -97,33 +98,31 @@ class TextFieldWidgetParser implements WidgetParser {
         enabledBorder: parseInputBorder(),
         focusedBorder: parseFocusInputBorder(),
         errorBorder: parseErrorInputBorder(),
-       contentPadding: EdgeInsets.only(
-      top: contentpaddingTop ?? 0.0,
-      left: contentpaddingLeft ?? 0.0,
-      right: contentpaddingRight ?? 0.0,
-      bottom: contentpaddingBottom ?? 0.0,
-    ),
-     prefixIcon: prefixIcon != null
-          ? Icon(
-              prefixIcon,
-              size: prefixIconSize,
-              color: prefixIconColor,
-            )
-          : null,
-    suffixIcon: 
-    suffixIcon != null
-          ? Icon(
-              suffixIcon,
-              size: suffixIconSize,
-              color: suffixIconColor,
-            )
-          : null,
-
-       
+        contentPadding: EdgeInsets.only(
+          top: contentpaddingTop ?? 0.0,
+          left: contentpaddingLeft ?? 0.0,
+          right: contentpaddingRight ?? 0.0,
+          bottom: contentpaddingBottom ?? 0.0,
+        ),
+        prefixIcon: prefixIcon != null
+            ? Icon(
+                prefixIcon,
+                size: prefixIconSize,
+                color: prefixIconColor,
+              )
+            : null,
+        suffixIcon: suffixIcon != null
+            ? Icon(
+                suffixIcon,
+                size: suffixIconSize,
+                color: suffixIconColor,
+              )
+            : null,
       ),
       onChanged: ((value) {
-        listener!.onClicked(clickEvent);
-        print("the entered onChanged value in textfield is $value");
+        // listener!.onClicked("welcomescreen");
+        // print("the entered onChanged value in textfield is $value");
+        projectInfo.projectData!["123"] = value;
       }),
     );
   }
@@ -164,21 +163,16 @@ class TextFieldWidgetParser implements WidgetParser {
       "contentpaddingLeft": contentpaddingLeft,
       "contentpaddingRight": contentpaddingRight,
       "contentpaddingBottom": contentpaddingBottom,
-      
       "prefixIcon": exportIconGuessFavorMaterial(realWidget1.icon),
       "prefixIconSize": realWidget1.size,
       "prefixIconColor": realWidget1.color != null
           ? realWidget1.color!.value.toRadixString(16)
           : null,
-
-      "suffixIcon":exportIconGuessFavorMaterial(realWidget1.icon),
+      "suffixIcon": exportIconGuessFavorMaterial(realWidget1.icon),
       "suffixIconSize": realWidget1.size,
       "suffixIconColor": realWidget1.color != null
           ? realWidget1.color!.value.toRadixString(16)
           : null,
-      
-      
-    
     };
   }
 
@@ -191,19 +185,22 @@ class TextFieldWidgetParser implements WidgetParser {
   InputBorder? parseInputBorder() {
     if (borderType == 'OutLine') {
       return OutlineInputBorder(
-        borderSide: BorderSide(color: borderColor ?? Colors.black, width: borderWidth ?? 1.0, ),
+        borderSide: BorderSide(
+          color: borderColor ?? Colors.black,
+          width: borderWidth ?? 1.0,
+        ),
         borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(borderRadiusTopLeft ?? 0.0),
-        topRight: Radius.circular(borderRadiusTopRight ?? 0.0),
-        bottomLeft: Radius.circular(borderRadiusBottomLeft ?? 0.0),
-        bottomRight: Radius.circular(borderRadiusBottomRight ?? 0.0),
-      ), 
+          topLeft: Radius.circular(borderRadiusTopLeft ?? 0.0),
+          topRight: Radius.circular(borderRadiusTopRight ?? 0.0),
+          bottomLeft: Radius.circular(borderRadiusBottomLeft ?? 0.0),
+          bottomRight: Radius.circular(borderRadiusBottomRight ?? 0.0),
+        ),
       );
-     
     }
     if (borderType == 'Underline') {
       return UnderlineInputBorder(
-        borderSide: BorderSide(color: borderColor ?? Colors.black, width: borderWidth ?? 1.0),
+        borderSide: BorderSide(
+            color: borderColor ?? Colors.black, width: borderWidth ?? 1.0),
       );
     }
     if (borderType == 'None') {
@@ -217,19 +214,20 @@ class TextFieldWidgetParser implements WidgetParser {
   InputBorder? parseFocusInputBorder() {
     if (borderType == 'OutLine') {
       return OutlineInputBorder(
-        borderSide: BorderSide(color: focusBorderColor ?? Colors.blue, width: borderWidth ?? 1.0),
+        borderSide: BorderSide(
+            color: focusBorderColor ?? Colors.blue, width: borderWidth ?? 1.0),
         borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(borderRadiusTopLeft ?? 0.0),
-        topRight: Radius.circular(borderRadiusTopRight ?? 0.0),
-        bottomLeft: Radius.circular(borderRadiusBottomLeft ?? 0.0),
-        bottomRight: Radius.circular(borderRadiusBottomRight ?? 0.0),
-      ), 
+          topLeft: Radius.circular(borderRadiusTopLeft ?? 0.0),
+          topRight: Radius.circular(borderRadiusTopRight ?? 0.0),
+          bottomLeft: Radius.circular(borderRadiusBottomLeft ?? 0.0),
+          bottomRight: Radius.circular(borderRadiusBottomRight ?? 0.0),
+        ),
       );
     }
     if (borderType == 'Underline') {
       return UnderlineInputBorder(
-        borderSide: BorderSide(color: focusBorderColor ?? Colors.blue, width: borderWidth ?? 1.0),
-       
+        borderSide: BorderSide(
+            color: focusBorderColor ?? Colors.blue, width: borderWidth ?? 1.0),
       );
     }
 
@@ -240,18 +238,20 @@ class TextFieldWidgetParser implements WidgetParser {
   InputBorder? parseErrorInputBorder() {
     if (borderType == 'OutLine') {
       return OutlineInputBorder(
-        borderSide: BorderSide(color: errorBorderColor ?? Colors.red, width: borderWidth ?? 1.0),
+        borderSide: BorderSide(
+            color: errorBorderColor ?? Colors.red, width: borderWidth ?? 1.0),
         borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(borderRadiusTopLeft ?? 0.0),
-        topRight: Radius.circular(borderRadiusTopRight ?? 0.0),
-        bottomLeft: Radius.circular(borderRadiusBottomLeft ?? 0.0),
-        bottomRight: Radius.circular(borderRadiusBottomRight ?? 0.0),
-      ),  
+          topLeft: Radius.circular(borderRadiusTopLeft ?? 0.0),
+          topRight: Radius.circular(borderRadiusTopRight ?? 0.0),
+          bottomLeft: Radius.circular(borderRadiusBottomLeft ?? 0.0),
+          bottomRight: Radius.circular(borderRadiusBottomRight ?? 0.0),
+        ),
       );
     }
     if (borderType == 'Underline') {
       return UnderlineInputBorder(
-        borderSide: BorderSide(color: errorBorderColor ?? Colors.red, width: borderWidth ?? 1.0),
+        borderSide: BorderSide(
+            color: errorBorderColor ?? Colors.red, width: borderWidth ?? 1.0),
       );
     }
 
@@ -259,12 +259,7 @@ class TextFieldWidgetParser implements WidgetParser {
     return null;
   }
 
-  
-    
-  
-
   dynamic exportColor(Color? color) {
     return color?.value;
   }
- 
 }

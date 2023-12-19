@@ -20,13 +20,13 @@ class LimitedBoxWidgetParser extends WidgetParser {
 
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     return LimitedBox(
       maxWidth: map.containsKey("maxWidth") ? map['maxWidth'] : double.infinity,
       maxHeight:
           map.containsKey("maxHeight") ? map['maxHeight'] : double.infinity,
       child: DynamicWidgetBuilder.buildFromMap(
-          map['child'], buildContext, listener),
+          map['child'], buildContext, listener,projectInfo),
     );
   }
 

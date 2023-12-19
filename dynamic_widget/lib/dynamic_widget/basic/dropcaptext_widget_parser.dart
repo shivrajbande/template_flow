@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class DropCapTextParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     return DropCapText(
       data: map.containsKey('data') ? map['data'] : null,
       selectable: map.containsKey('selectable') ? map['selectable'] : false,
@@ -21,7 +21,7 @@ class DropCapTextParser extends WidgetParser {
           ? parseTextAlign(map['textAlign'])
           : TextAlign.start,
       dropCap: map.containsKey('dropCap')
-          ? parseDropCap(map['dropCap'], buildContext, listener)
+          ? parseDropCap(map['dropCap'], buildContext, listener,projectInfo)
           : null,
       dropCapPadding: map.containsKey('dropCapPadding')
           ? parseEdgeInsetsGeometry(map['dropCapPadding']) as EdgeInsets?

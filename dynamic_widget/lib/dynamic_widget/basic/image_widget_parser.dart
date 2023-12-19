@@ -12,7 +12,7 @@ import 'package:flutter/widgets.dart';
 class AssetImageWidgetParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     String name = map['name'];
     String? semanticLabel =
         map.containsKey('semanticLabel') ? map['semanticLabel'] : null;
@@ -71,7 +71,7 @@ class AssetImageWidgetParser extends WidgetParser {
     if (listener != null && (clickEvent != null && clickEvent.isNotEmpty)) {
       return GestureDetector(
         onTap: () {
-          listener.onClicked(clickEvent);
+          listener.onClicked("assetIamge",clickEvent,{});
         },
         child: widget,
       );
@@ -206,7 +206,7 @@ class AssetImageWidgetParser extends WidgetParser {
 class NetworkImageWidgetParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     String src = map['src'];
 
 
@@ -326,7 +326,7 @@ class NetworkImageWidgetParser extends WidgetParser {
     if (listener != null && (clickEvent != null && clickEvent.isNotEmpty)) {
       return GestureDetector(
         onTap: () {
-          listener.onClicked(clickEvent);
+          listener.onClicked("IamgeNetwork",clickEvent,{});
         },
         child: widget,
       );
@@ -478,7 +478,7 @@ class CustomImageWidget extends StatelessWidget {
     if (listener != null && (clickEvent != null && clickEvent!.isNotEmpty)) {
       return GestureDetector(
         onTap: () {
-          listener!.onClicked(clickEvent!);
+          listener!.onClicked("ImageMemory",clickEvent!,{});
         },
         child: widget,
       );

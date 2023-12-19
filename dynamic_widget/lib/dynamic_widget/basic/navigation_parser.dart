@@ -8,7 +8,7 @@ class NavigationParser extends WidgetParser {
   NavigationParser(this.operation, this.screenName);
 
   @override
-  Widget parse(Map<String, dynamic> map, BuildContext buildContext, ClickListener? listener) {
+  Widget parse(Map<String, dynamic> map, BuildContext buildContext, ClickListener? listener,ProjectInfo projectInfo) {
     
    // String? routeName = map['routeName'];
      String? operationVar = map['operation'];

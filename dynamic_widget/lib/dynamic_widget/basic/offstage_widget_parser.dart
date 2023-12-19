@@ -14,10 +14,10 @@ class OffstageWidgetParser extends WidgetParser{
   }
 
   @override
-  Widget parse(Map<String, dynamic> map, BuildContext buildContext, ClickListener? listener) {
+  Widget parse(Map<String, dynamic> map, BuildContext buildContext, ClickListener? listener,ProjectInfo projectInfo) {
     return Offstage(
       offstage: map.containsKey("offstage")?map['offstage']:true,
-      child: DynamicWidgetBuilder.buildFromMap(map['child'], buildContext, listener),
+      child: DynamicWidgetBuilder.buildFromMap(map['child'], buildContext, listener,projectInfo),
     );
   }
 

@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 class WrapWidgetParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     return Wrap(
       direction: map.containsKey("direction")
           ? parseAxis(map["direction"])
@@ -29,7 +29,7 @@ class WrapWidgetParser extends WidgetParser {
           ? parseVerticalDirection(map["verticalDirection"])
           : VerticalDirection.down,
       children: DynamicWidgetBuilder.buildWidgets(
-          map['children'], buildContext, listener),
+          map['children'], buildContext, listener,projectInfo),
     );
   }
 

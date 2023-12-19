@@ -96,7 +96,7 @@ class DynamicWidgetBuilder {
     PrintParser(),
     RadioButtonListTileParser(),
     CheckBoxWidgetParser(),
-    NavigationParser(null,null)
+    NavigationParser(null, null)
   ];
 
   static final _widgetNameParserMap = <String, WidgetParser>{};
@@ -120,18 +120,22 @@ class DynamicWidgetBuilder {
     }
   }
 
-  static Widget? build(
-      String json, BuildContext buildContext, ClickListener listener) {
+  static Widget? build(Map<String, String> screensUI, BuildContext buildContext,
+      ClickListener listener, Map<String, dynamic> storage, String screenName) {
     initDefaultParsersIfNess();
-    var map = jsonDecode(json);
+    ProjectInfo projectInfo = ProjectInfo(screensUI, storage, "loginscreen");
+    var map = jsonDecode(projectInfo.sreensUI![screenName]!);
     ClickListener _listener =
         listener == null ? new NonResponseWidgetClickListener() : listener;
-    var widget = buildFromMap(map, buildContext, _listener);
+    var widget = buildFromMap(map, buildContext, _listener, projectInfo);
     return widget;
   }
 
-  static Widget? buildFromMap(Map<String, dynamic>? map,
-      BuildContext buildContext, ClickListener? listener) {
+  static Widget? buildFromMap(
+      Map<String, dynamic>? map,
+      BuildContext buildContext,
+      ClickListener? listener,
+      ProjectInfo projectInfo) {
     initDefaultParsersIfNess();
     if (map == null) {
       return null;
@@ -142,18 +146,22 @@ class DynamicWidgetBuilder {
     }
     var parser = _widgetNameParserMap[widgetName];
     if (parser != null) {
-      return parser.parse(map, buildContext, listener);
+      return parser.parse(map, buildContext, listener, projectInfo);
     }
     log.warning("Not support parser type: $widgetName");
     return null;
   }
 
-  static List<Widget> buildWidgets(List<dynamic> values,
-      BuildContext buildContext, ClickListener? listener) {
+  static List<Widget> buildWidgets(
+      List<dynamic> values,
+      BuildContext buildContext,
+      ClickListener? listener,
+      ProjectInfo projectInfo) {
     initDefaultParsersIfNess();
     List<Widget> rt = [];
     for (var value in values) {
-      var buildFromMap2 = buildFromMap(value, buildContext, listener);
+      var buildFromMap2 =
+          buildFromMap(value, buildContext, listener, projectInfo);
       if (buildFromMap2 != null) {
         rt.add(buildFromMap2);
       }
@@ -197,7 +205,7 @@ class DynamicWidgetBuilder {
 abstract class WidgetParser {
   /// parse the json map into a flutter widget.
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener);
+      ClickListener? listener, ProjectInfo projectInfo);
 
   /// the widget type name for example:
   /// {"type" : "Text", "data" : "Denny"}
@@ -216,15 +224,23 @@ abstract class WidgetParser {
 }
 
 abstract class ClickListener {
-  void onClicked(String? event);
+  void onClicked(String? eventFrom,String? event, dynamic eventData);
+
 }
 
 class NonResponseWidgetClickListener implements ClickListener {
   static final Logger log = Logger('NonResponseWidgetClickListener');
 
   @override
-  void onClicked(String? event) {
+  void onClicked(String?eventFrom,String? event,dynamic eventData) {
     log.info("receiver click event: " + event!);
     print("receiver click event: " + event);
   }
+}
+
+class ProjectInfo {
+  Map<String, String>? sreensUI;
+  Map<String, dynamic>? projectData;
+  String? presentScreen;
+  ProjectInfo(this.sreensUI, this.projectData, this.presentScreen);
 }

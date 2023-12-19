@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 class ContainerWidgetParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     Alignment? alignment = parseAlignment(map['alignment']);
     Color? color = parseHexColor(map['color']);
     Color? borderColor =
@@ -23,7 +23,7 @@ class ContainerWidgetParser extends WidgetParser {
     Map<String, dynamic>? childMap = map['child'];
     Widget? child = childMap == null
         ? null
-        : DynamicWidgetBuilder.buildFromMap(childMap, buildContext, listener);
+        : DynamicWidgetBuilder.buildFromMap(childMap, buildContext, listener,projectInfo);
 
     String? clickEvent =
         map.containsKey("click_event") ? map['click_event'] : null;
@@ -53,7 +53,7 @@ class ContainerWidgetParser extends WidgetParser {
     if (listener != null && clickEvent != null) {
       return GestureDetector(
         onTap: () {
-          listener.onClicked(clickEvent);
+          listener.onClicked("Container",clickEvent,{});
         },
         child: containerWidget,
       );

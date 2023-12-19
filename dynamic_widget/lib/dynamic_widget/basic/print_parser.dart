@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 class PrintParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     return Text(
        "Saved!",
     );

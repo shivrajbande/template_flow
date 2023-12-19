@@ -56,7 +56,7 @@ class CardParser extends WidgetParser {
 
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     final Color? color = parseHexColor(map['color']);
     final Color? shadowColor = parseHexColor(map['shadowColor']);
     final double? elevation = map['elevation'];
@@ -67,7 +67,7 @@ class CardParser extends WidgetParser {
     final Map<String, dynamic>? childMap = map['child'];
     final Widget? child = childMap == null
         ? null
-        : DynamicWidgetBuilder.buildFromMap(childMap, buildContext, listener);
+        : DynamicWidgetBuilder.buildFromMap(childMap, buildContext, listener,projectInfo);
     final RoundedRectangleBorder? shape =
         RoundedRectangleBorderParser.parse(map['shape']);
 

@@ -1,3 +1,5 @@
+
+
 import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/navigation_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/utils.dart';
@@ -284,7 +286,7 @@ class ElevatedButtonParser extends WidgetParser {
 
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     double topLeftRadius =
         (map['borderRadius'] as Map<String, dynamic>)['topLeft'].toDouble();
 
@@ -306,7 +308,7 @@ class ElevatedButtonParser extends WidgetParser {
    
     return ElevatedButton(
       onPressed: () {
-        listener!.onClicked(clickEvent);
+        listener!.onClicked("Button","/navigateTo",{"ScreenName":"welcomescreen"});
         // NavigationParser(operation,screenName);
       },
       style: ElevatedButton.styleFrom(
@@ -352,7 +354,7 @@ class ElevatedButtonParser extends WidgetParser {
       //     : null,
 
       child: DynamicWidgetBuilder.buildFromMap(
-          map['child'], buildContext, listener),
+          map['child'], buildContext, listener,projectInfo),
     );
   }
 
@@ -414,13 +416,13 @@ class TextButtonParser extends WidgetParser {
 
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     String? clickEvent =
         map.containsKey("click_event") ? map['click_event'] : "";
 
     return TextButton(
       onPressed: () {
-        listener!.onClicked(clickEvent);
+        listener!.onClicked("TextButton",clickEvent,{});
       },
       style: ButtonStyle(
         foregroundColor: map.containsKey("foregroundColor")
@@ -449,7 +451,7 @@ class TextButtonParser extends WidgetParser {
             : null,
       ),
       child: DynamicWidgetBuilder.buildFromMap(
-          map['child'], buildContext, listener)!,
+          map['child'], buildContext, listener,projectInfo)!,
     );
   }
 

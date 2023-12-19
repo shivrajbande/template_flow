@@ -3,14 +3,14 @@ import 'dart:convert';
 
 import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:dynamic_widget/dynamic_widget/utils.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
 class ListViewWidgetParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener, ProjectInfo projectInfo) {
     var scrollDirection = Axis.vertical;
     if (map.containsKey("scrollDirection") &&
         "Horizontal" == map["scrollDirection"]) {
@@ -27,7 +27,7 @@ class ListViewWidgetParser extends WidgetParser {
     var itemExtent =
         map.containsKey("itemExtent") ? map["itemExtent"]?.toDouble() : null;
     var children = DynamicWidgetBuilder.buildWidgets(
-        map['children'], buildContext, listener);
+        map['children'], buildContext, listener, projectInfo);
     var pageSize = map.containsKey("pageSize") ? map["pageSize"] : 10;
     var loadMoreUrl =
         map.containsKey("loadMoreUrl") ? map["loadMoreUrl"] : null;
@@ -46,9 +46,9 @@ class ListViewWidgetParser extends WidgetParser {
         isDemo: isDemo);
 
     return Container(
-      height: MediaQuery.of(buildContext).size.height,
-      width: MediaQuery.of(buildContext).size.width/3.2,
-      child: new ListViewWidget(params, buildContext));
+        height: MediaQuery.of(buildContext).size.height,
+        width: MediaQuery.of(buildContext).size.width / 3.2,
+        child: new ListViewWidget(params, buildContext, projectInfo));
   }
 
   @override
@@ -92,16 +92,19 @@ class ListViewWidgetParser extends WidgetParser {
 class ListViewWidget extends StatefulWidget {
   final ListViewParams _params;
   final BuildContext _buildContext;
+  ProjectInfo projectInfo;
 
-  ListViewWidget(this._params, this._buildContext);
+  ListViewWidget(this._params, this._buildContext, this.projectInfo);
 
   @override
-  _ListViewWidgetState createState() => _ListViewWidgetState(_params);
+  _ListViewWidgetState createState() =>
+      _ListViewWidgetState(_params, projectInfo);
 }
 
 class _ListViewWidgetState extends State<ListViewWidget> {
   ListViewParams _params;
   List<Widget?> _items = [];
+  ProjectInfo projectInfo;
 
   ScrollController _scrollController = new ScrollController();
   bool isPerformingRequest = false;
@@ -110,7 +113,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
   //to bottom.
   bool loadCompleted = false;
 
-  _ListViewWidgetState(this._params) {
+  _ListViewWidgetState(this._params,this.projectInfo) {
     if (_params.children != null) {
       _items.addAll(_params.children!);
     }
@@ -138,7 +141,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
       var jsonString =
           _params.isDemo! ? await fakeRequest() : await doRequest();
       var buildWidgets = DynamicWidgetBuilder.buildWidgets(
-          jsonDecode(jsonString), widget._buildContext, null);
+          jsonDecode(jsonString), widget._buildContext, null, projectInfo);
       setState(() {
         if (buildWidgets.isEmpty) {
           loadCompleted = true;

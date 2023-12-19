@@ -7,7 +7,7 @@ import '../utils.dart';
 class ListTileWidgetParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     bool isThreeLine =
         map.containsKey("isThreeLine") ? map["isThreeLine"] : false;
     EdgeInsetsGeometry? contentPadding = map.containsKey("contentPadding")
@@ -17,20 +17,20 @@ class ListTileWidgetParser extends WidgetParser {
     bool enabled = map.containsKey("enabled") ? map["enabled"] : true;
     Widget? leading = map.containsKey("leading")
         ? DynamicWidgetBuilder.buildFromMap(
-            map["leading"], buildContext, listener)
+            map["leading"], buildContext, listener,projectInfo)
         : null;
     bool selected = map.containsKey("selected") ? map["selected"] : false;
     Widget? subtitle = map.containsKey("subtitle")
         ? DynamicWidgetBuilder.buildFromMap(
-            map["subtitle"], buildContext, listener)
+            map["subtitle"], buildContext, listener,projectInfo)
         : null;
     Widget? title = map.containsKey("title")
         ? DynamicWidgetBuilder.buildFromMap(
-            map["title"], buildContext, listener)
+            map["title"], buildContext, listener,projectInfo)
         : null;
     Widget? trailing = map.containsKey("trailing")
         ? DynamicWidgetBuilder.buildFromMap(
-            map["trailing"], buildContext, listener)
+            map["trailing"], buildContext, listener,projectInfo)
         : null;
     String? tapEvent = map.containsKey("tapEvent") ? map["tapEvent"] : null;
 
@@ -45,7 +45,7 @@ class ListTileWidgetParser extends WidgetParser {
       enabled: enabled,
       onTap: () {
         if (listener != null && tapEvent != null) {
-          listener.onClicked(tapEvent);
+          listener.onClicked("listTile",tapEvent,{});
         }
       },
       selected: selected,

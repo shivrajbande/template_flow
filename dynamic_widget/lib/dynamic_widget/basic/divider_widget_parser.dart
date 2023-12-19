@@ -22,7 +22,7 @@ class DividerWidgetParser extends WidgetParser{
   }
 
   @override
-  Widget parse(Map<String, dynamic> map, BuildContext buildContext, ClickListener? listener) {
+  Widget parse(Map<String, dynamic> map, BuildContext buildContext, ClickListener? listener,ProjectInfo projectInfo) {
 
     return Divider(
       height: map["height"],

@@ -20,7 +20,7 @@ class CheckBoxWidgetParser implements WidgetParser {
   EdgeInsetsGeometry? padding;
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     borderRadiusTopLeft = map['borderRadiusTopLeft']?.toDouble();
     borderRadiusTopRight = map['borderRadiusTopRight']?.toDouble();
     borderRadiusBottomLeft = map['borderRadiusBottomLeft']?.toDouble();
@@ -36,7 +36,7 @@ class CheckBoxWidgetParser implements WidgetParser {
 
     return Checkbox(
        value: true,
-      onChanged:( (value) { listener!.onClicked(clickEvent);}),
+      onChanged:( (value) { listener!.onClicked("CheckBox","selectCheckBox",{});}),
       checkColor: checkColor,
       activeColor: activeColor,
      

@@ -1072,7 +1072,7 @@ String exportDropCapPosition(DropCapPosition? dropCapPosition) {
 }
 
 DropCap? parseDropCap(Map<String, dynamic>? map, BuildContext buildContext,
-    ClickListener? listener) {
+    ClickListener? listener, ProjectInfo projectInfo) {
   if (map == null) {
     return null;
   }
@@ -1080,7 +1080,7 @@ DropCap? parseDropCap(Map<String, dynamic>? map, BuildContext buildContext,
     width: map['width']?.toDouble(),
     height: map['height']?.toDouble(),
     child:
-        DynamicWidgetBuilder.buildFromMap(map["child"], buildContext, listener),
+        DynamicWidgetBuilder.buildFromMap(map["child"], buildContext, listener,projectInfo),
   );
 }
 

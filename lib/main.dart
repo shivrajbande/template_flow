@@ -5,6 +5,8 @@ import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:flutter/services.dart';
 import 'package:template_flow/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:template_flow/preview_page.dart';
+import 'package:template_flow/project_pojo.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,15 +24,20 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   late DynamicWidgetJsonExportor? _exportor;
+  Map<String, String>? screensUI;
+  Map<String, dynamic>? screensData;
+  List<String>? screensName;
 
-  Future<String> getClientDetails() async {
+  ProjectInformation projectInfo = ProjectInformation();
+
+  Future<void> getClientDetails() async {
     String? appName;
     String? packageName;
     String? projectId;
     String? projectCode;
     String? clientName;
     String? clientId;
-
+    
     final clientDetails = await rootBundle.loadString("assets/json/code.json");
     var clientjson = jsonDecode(clientDetails);
     appName = clientjson['app_name'];
@@ -38,6 +45,7 @@ class _MyAppState extends State<MyApp> {
     projectId = clientjson['project_id'];
     clientName = clientjson['client_name'];
     clientId = clientjson['client_id'];
+    String projectName = "temp";
 
     try {
       CollectionReference users =
@@ -45,58 +53,64 @@ class _MyAppState extends State<MyApp> {
       DocumentSnapshot data = await users.doc(clientId).get();
       Map<String, dynamic> storedClientDetails =
           data.data() as Map<String, dynamic>;
+      var projects = storedClientDetails["projects"];
+      projects.forEach((project) {
+        if (project["projectName"] == projectName ||
+            project["projectID"] != projectId) {
+          var projectData = project["projectCode"];
 
-      var projectData = storedClientDetails["projects"];
-      projectData.forEach((project) {
-        projectCode = project["projectCode"];
-        if (projectId == project["projectId"]) {
-        } else {
-          print("no project id matched");
+          // List<ScreenInfo>? screensData;
+
+          // if (projectData.screenData.length > 0) {
+          //   projectData.screensData.forEach((ScreenInfo screenInfo) {
+          //     ScreenInfo screenInfoInstance = ScreenInfo(
+          //         screenUI: screenInfo.screenUI,
+          //         screenData: screenInfo.screenData,
+          //         screenName: screenInfo.screenName);
+          //     screensData!.add(screenInfoInstance);
+          //   });
+
+          //   projectInfo.screensInfo = screensData;
+          //   projectInfo.screensInfo = projectData.firstScreen;
+          // } else
+           //{
+          
+    
+            setState(() {
+              
+            });
+         // }
         }
       });
     } catch (e) {
       print("Error is : ${e}");
     }
-    return '''
-   ${projectCode}
-''';
   }
 
-  Future<Widget> getCodeFromFile(BuildContext context) async {
-    final String val = await getClientDetails();
-    return _buildWidget(context, val);
+  Future<void> getCodeFromFile() async {
+    await getClientDetails();
   }
 
   @override
   void initState() {
     super.initState();
+    getCodeFromFile();
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: FutureBuilder<Widget>(
-      future: getCodeFromFile(context),
-      builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-        if (snapshot.hasError) {
-          print(snapshot.error);
-        }
-        return snapshot.hasData ? snapshot.data! : Text("Loading..");
-      },
-    ));
-  }
-
-  Future<Widget> _buildWidget(BuildContext context, String jsonstring) async {
-    Widget? widget = DynamicWidgetBuilder.build(
-        jsonstring, context, new DefaultClickListener());
-    return widget!;
-  }
-}
-
-class DefaultClickListener implements ClickListener {
-  @override
-  void onClicked(String? event) {
-    print("Receive click event: " + event!);
+      //     home: FutureBuilder<Widget>(
+      //   future:
+      //   builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+      //     if (snapshot.hasError) {
+      //       print(snapshot.error);
+      //     }
+      //     return snapshot.hasData ? snapshot.data! : Text("Loading..");
+      //   },
+      // )
+      home: Preview(context, projectInfo, "loginscreen"),
+    );
   }
 }
 

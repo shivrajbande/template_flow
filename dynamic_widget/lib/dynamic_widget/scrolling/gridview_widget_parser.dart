@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 class GridViewWidgetParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener, ProjectInfo projectInfo) {
     var scrollDirection = Axis.vertical;
     if (map.containsKey("scrollDirection") &&
         "horizontal" == map["scrollDirection"]) {
@@ -18,7 +18,8 @@ class GridViewWidgetParser extends WidgetParser {
     }
     int? crossAxisCount = map['crossAxisCount'];
     bool? reverse = map.containsKey("reverse") ? map['reverse'] : false;
-    bool? shrinkWrap = map.containsKey("shrinkWrap") ? map["shrinkWrap"] : false;
+    bool? shrinkWrap =
+        map.containsKey("shrinkWrap") ? map["shrinkWrap"] : false;
     double? cacheExtent =
         map.containsKey("cacheExtent") ? map["cacheExtent"]?.toDouble() : 0.0;
     EdgeInsetsGeometry? padding = map.containsKey('padding')
@@ -34,7 +35,7 @@ class GridViewWidgetParser extends WidgetParser {
         ? map['childAspectRatio']?.toDouble()
         : 1.0;
     var children = DynamicWidgetBuilder.buildWidgets(
-        map['children'], buildContext, listener);
+        map['children'], buildContext, listener, projectInfo);
 
     var pageSize = map.containsKey("pageSize") ? map["pageSize"] : 10;
     var loadMoreUrl =
@@ -99,11 +100,12 @@ class GridViewWidget extends StatefulWidget {
   final GridViewParams _params;
 
   final BuildContext _buildContext;
+  ProjectInfo ?projectInfo;
 
   GridViewWidget(this._params, this._buildContext);
 
   @override
-  _GridViewWidgetState createState() => _GridViewWidgetState(_params);
+  _GridViewWidgetState createState() => _GridViewWidgetState(_params,this.projectInfo!);
 }
 
 class _GridViewWidgetState extends State<GridViewWidget> {
@@ -112,12 +114,13 @@ class _GridViewWidgetState extends State<GridViewWidget> {
 
   ScrollController _scrollController = new ScrollController();
   bool isPerformingRequest = false;
+  ProjectInfo projectInfo;
 
   //If there are no more items, it should not try to load more data while scroll
   //to bottom.
   bool loadCompleted = false;
 
-  _GridViewWidgetState(this._params) {
+  _GridViewWidgetState(this._params, this.projectInfo) {
     if (_params.children != null) {
       _items.addAll(_params.children!);
     }
@@ -142,9 +145,10 @@ class _GridViewWidgetState extends State<GridViewWidget> {
   _getMoreData() async {
     if (!isPerformingRequest) {
       setState(() => isPerformingRequest = true);
-      var jsonString = _params.isDemo! ? await fakeRequest() : await doRequest();
+      var jsonString =
+          _params.isDemo! ? await fakeRequest() : await doRequest();
       var buildWidgets = DynamicWidgetBuilder.buildWidgets(
-          jsonDecode(jsonString), widget._buildContext, null);
+          jsonDecode(jsonString), widget._buildContext, null,projectInfo);
       setState(() {
         if (buildWidgets.isEmpty) {
           loadCompleted = true;

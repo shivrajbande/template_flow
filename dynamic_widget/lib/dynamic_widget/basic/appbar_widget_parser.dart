@@ -29,21 +29,21 @@ class AppBarWidgetParser extends WidgetParser {
 
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {    
+      ClickListener? listener,ProjectInfo projectInfo) {    
     var appBarWidget = AppBar(
       title: map.containsKey("title")
           ? DynamicWidgetBuilder.buildFromMap(
-              map["title"], buildContext, listener)
+              map["title"], buildContext, listener,projectInfo)
           : null,
       leading: 
       // SizedBox.shrink(),
        map.containsKey("leading")
           ? DynamicWidgetBuilder.buildFromMap(
-              map["leading"], buildContext, listener)
+              map["leading"], buildContext, listener,projectInfo)
           : null,
       actions: map.containsKey("actions")
           ? DynamicWidgetBuilder.buildWidgets(
-              map["actions"], buildContext, listener) as List<Widget>?
+              map["actions"], buildContext, listener,projectInfo) as List<Widget>?
           : null,
       centerTitle:
           map.containsKey("centerTitle") ? map["centerTitle"] as bool? : false,

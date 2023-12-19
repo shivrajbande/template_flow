@@ -5,13 +5,13 @@ import 'package:flutter/widgets.dart';
 class PaddingWidgetParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     return Padding(
       padding: map.containsKey("padding")
           ? parseEdgeInsetsGeometry(map["padding"])!
           : EdgeInsets.zero,
       child: DynamicWidgetBuilder.buildFromMap(
-          map["child"], buildContext, listener),
+          map["child"], buildContext, listener,projectInfo),
     );
   }
 

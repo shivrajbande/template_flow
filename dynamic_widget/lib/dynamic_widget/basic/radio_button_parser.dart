@@ -38,14 +38,14 @@ class RadioButtonListTileParser extends WidgetParser {
   }
 
   @override
-  Widget parse(Map<String, dynamic> map, BuildContext buildContext, ClickListener? listener) {
+  Widget parse(Map<String, dynamic> map, BuildContext buildContext, ClickListener? listener,ProjectInfo projectInfo) {
     final String? title = map['title'];
     final String? subtitle = map['subtitle'];
     final bool value = map['value'];
     final bool groupValue = map['groupValue'];
     final bool toggleable = map['toggleable'];
     final EdgeInsetsGeometry? contentPadding = parseEdgeInsetsGeometry(map['contentPadding']);
-    final Widget? secondary = DynamicWidgetBuilder.buildFromMap(map['secondary'], buildContext, listener);
+    final Widget? secondary = DynamicWidgetBuilder.buildFromMap(map['secondary'], buildContext, listener,projectInfo);
 
     var radioButtonListTile = RadioListTile(
       title: title != null ? Text(title) : null,

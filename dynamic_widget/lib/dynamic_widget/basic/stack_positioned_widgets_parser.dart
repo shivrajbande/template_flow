@@ -5,10 +5,10 @@ import 'package:flutter/widgets.dart';
 class PositionedWidgetParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     return Positioned(
       child: DynamicWidgetBuilder.buildFromMap(
-          map["child"], buildContext, listener)!,
+          map["child"], buildContext, listener,projectInfo)!,
       top: map.containsKey("top") ? map["top"]?.toDouble() : null,
       right: map.containsKey("right") ? map["right"]?.toDouble() : null,
       bottom: map.containsKey("bottom") ? map["bottom"]?.toDouble() : null,
@@ -43,7 +43,7 @@ class PositionedWidgetParser extends WidgetParser {
 class StackWidgetParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
 
     return Stack(
       alignment: map.containsKey("alignment")
@@ -57,7 +57,7 @@ class StackWidgetParser extends WidgetParser {
           ? parseClip(map["clipBehavior"])!
           : Clip.hardEdge,
       children: DynamicWidgetBuilder.buildWidgets(
-          map['children'], buildContext, listener),
+          map['children'], buildContext, listener,projectInfo),
     );
   }
 

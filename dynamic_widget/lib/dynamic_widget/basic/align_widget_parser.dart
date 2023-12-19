@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 class AlignWidgetParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener) {
+      ClickListener? listener,ProjectInfo projectInfo) {
     return Align(
       alignment: map.containsKey("alignment")
           ? parseAlignment(map["alignment"])!
@@ -17,7 +17,7 @@ class AlignWidgetParser extends WidgetParser {
           ? map["heightFactor"]?.toDouble()
           : null,
       child: DynamicWidgetBuilder.buildFromMap(
-          map["child"], buildContext, listener),
+          map["child"], buildContext, listener,projectInfo),
     );
   }
 
