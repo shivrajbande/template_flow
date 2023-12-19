@@ -2,12 +2,12 @@ import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:dynamic_widget/dynamic_widget/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
+// import 'package:get/get.dart';
 
 class CheckBoxWidgetParser implements WidgetParser {
   Color? activeColor;
   Color? checkColor;
-  Color? borderColor;
+  Color borderColor=Colors.black;
   double? borderWidth;
   double? borderRadiusTopLeft;
   double? borderRadiusTopRight;
@@ -17,6 +17,7 @@ class CheckBoxWidgetParser implements WidgetParser {
   double? contentpaddingTop;
   double? contentpaddingRight;
   double? contentpaddingBottom;
+  bool? ispadded;
   EdgeInsetsGeometry? padding;
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
@@ -25,22 +26,39 @@ class CheckBoxWidgetParser implements WidgetParser {
     borderRadiusTopRight = map['borderRadiusTopRight']?.toDouble();
     borderRadiusBottomLeft = map['borderRadiusBottomLeft']?.toDouble();
     borderRadiusBottomRight = map['borderRadiusBottomRight']?.toDouble();
-    borderColor = parseHexColor(map['borderColor']);
+    borderColor = parseHexColor(map['borderColor'])!;
     activeColor = parseHexColor(map['activeColor']);
     checkColor = parseHexColor(map['checkColor']);
+    ispadded=map['density'];
     padding: map.containsKey("padding")
             ? parseEdgeInsetsGeometry(map["padding"].toDouble())
             : null;
    String? clickEvent =
         map.containsKey("click_event") ? map['click_event'] : "";
+  CheckboxParams params=new CheckboxParams(checkColor,activeColor,borderColor);
+    return CustomCheckBoxClass(params);
+    // Checkbox(
+    //    value: false,
+    //   side: MaterialStateBorderSide.resolveWith(
+    //                 (Set<MaterialState> states) {
+    //                   if (states.contains(MaterialState.selected)) {
+    //                     return  BorderSide(
+    //                         color: borderColor);
+    //                   }
 
-    return Checkbox(
-       value: true,
-      onChanged:( (value) { listener!.onClicked("CheckBox","selectCheckBox",{});}),
-      checkColor: checkColor,
-      activeColor: activeColor,
+    //                   return BorderSide(
+    //                     color:borderColor
+                            
+    //                   );
+    //                 },
+    //               ),
+    //   onChanged:( (value) {  if (listener != null) {
+    //       listener.onClicked(clickEvent);
+    //     }}),
+    //   checkColor: checkColor,
+    //   activeColor: activeColor,
      
-    );
+    // );
   }
 
   @override
@@ -61,6 +79,7 @@ class CheckBoxWidgetParser implements WidgetParser {
       "borderRadiusTopRight": borderRadiusTopRight,
       "borderRadiusBottomLeft": borderRadiusBottomLeft,
       "borderRadiusBottomRight": borderRadiusBottomRight,
+      
      
     };
   }
@@ -80,5 +99,52 @@ class CheckBoxWidgetParser implements WidgetParser {
 
   dynamic exportColor(Color? color) {
     return color?.value;
+  }
+}
+
+class CheckboxParams {
+    // List<String>?options;
+
+    Color? checkcolor;
+    Color? activeColor;
+   Color borderColor;
+  // bool? ispadded;
+    CheckboxParams(this.checkcolor,this.activeColor,this.borderColor);
+    //checkColor:parseHexColor(map['checkColor']);
+ 
+  }
+ class CustomCheckBoxClass extends StatefulWidget {
+  final CheckboxParams? params;
+
+  CustomCheckBoxClass(this.params);
+
+  @override
+  State<CustomCheckBoxClass> createState() => _CustomCheckBoxClassState(params);
+}
+
+class _CustomCheckBoxClassState extends State<CustomCheckBoxClass> {
+  CheckboxParams? params;
+
+  _CustomCheckBoxClassState(this.params);
+
+  bool initialBool = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return 
+      // padding:(params?.ispadded==true)? const EdgeInsets.all(10.0):const EdgeInsets.all(0.0),
+       Checkbox(
+        
+        value: initialBool,
+        checkColor: params?.checkcolor,
+        activeColor: params?.activeColor,
+        side: BorderSide(color:params!.borderColor ),
+        onChanged: (bool? newValue) {
+          setState(() {
+            initialBool = newValue ?? false;
+          });
+        },
+      
+    );
   }
 }

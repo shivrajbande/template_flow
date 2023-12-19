@@ -1,7 +1,8 @@
-
+import 'dart:html';
 
 import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/navigation_parser.dart';
+import 'package:dynamic_widget/dynamic_widget/icons_helper.dart';
 import 'package:dynamic_widget/dynamic_widget/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:dynamic_widget/dynamic_widget/common/rounded_rectangle_border_parser.dart';
@@ -287,6 +288,8 @@ class ElevatedButtonParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
       ClickListener? listener,ProjectInfo projectInfo) {
+        dynamic child = DynamicWidgetBuilder.buildFromMap(
+          map['child'], buildContext, listener,projectInfo);
     double topLeftRadius =
         (map['borderRadius'] as Map<String, dynamic>)['topLeft'].toDouble();
 
@@ -301,14 +304,20 @@ class ElevatedButtonParser extends WidgetParser {
         parseHexColor(map['borderColor']); // Access borderColor
     double buttonWidth = map['buttonWidth'].toDouble() ?? 100.0;
     double buttonHeight = map['buttonHeight'].toDouble() ?? 80.0;
+    double iconPaddingRight= map['iconPaddingRight'].toDouble() ?? 0.0;
+    double iconPaddingLeft= map['iconPaddingLeft'].toDouble() ?? 0.0;
+    double iconPaddingBottom = map['iconPaddingBottom'].toDouble() ?? 0.0;
+    double iconPaddingTop = map['iconPaddingTop'].toDouble() ?? 0.0;
     String? operation= map['operation'] ;
     String? screenName=map['screenName'];
     String? clickEvent =
         map.containsKey("click_event") ? map['click_event'] : "";
+         IconData? prefixIcon= getIconUsingPrefix(name: map['icondata']);
+         bool? hasIcon= parseBool(map['hasIcon']);
    
     return ElevatedButton(
       onPressed: () {
-        listener!.onClicked("Button","/navigateTo",{"ScreenName":"welcomescreen"});
+        // listener!.onClicked("Button","/navigateTo",{"ScreenName":"welcomescreen"});
         // NavigationParser(operation,screenName);
       },
       style: ElevatedButton.styleFrom(
@@ -353,8 +362,25 @@ class ElevatedButtonParser extends WidgetParser {
       //         side: parseBorderSide(map['shape']))
       //     : null,
 
-      child: DynamicWidgetBuilder.buildFromMap(
-          map['child'], buildContext, listener,projectInfo),
+      child:(hasIcon==true)?
+      
+       Container(
+        width:buttonWidth,
+        height: buttonHeight ,
+        child: Center(
+          child: Row(
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding:  EdgeInsets.only(left:iconPaddingRight,right: iconPaddingLeft,top: iconPaddingTop,bottom: iconPaddingBottom),
+                child: Icon(prefixIcon,color:Colors.black,),
+              ),
+              SizedBox(width:8),
+              child
+            ],
+          ),
+        ),
+      ):child
     );
   }
 
@@ -417,6 +443,8 @@ class TextButtonParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
       ClickListener? listener,ProjectInfo projectInfo) {
+    dynamic child = DynamicWidgetBuilder.buildFromMap(
+          map['child'], buildContext, listener,projectInfo)!;
     String? clickEvent =
         map.containsKey("click_event") ? map['click_event'] : "";
 
@@ -450,8 +478,13 @@ class TextButtonParser extends WidgetParser {
             ? parseAlignment(map["alignment"])
             : null,
       ),
-      child: DynamicWidgetBuilder.buildFromMap(
-          map['child'], buildContext, listener,projectInfo)!,
+      child: Text("akhilaaa",style: TextStyle(color: Colors.white),)
+      // Row(
+      //   children: [
+      //     Icon(Icons.settings,color:Colors.black,),
+      //     child
+      //   ],
+      // )
     );
   }
 

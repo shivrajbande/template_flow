@@ -15,6 +15,10 @@ on:
         description: 'Project ID for indexing in DB for the build'
         required: true
         type: string
+      project_name:
+        description: 'Project Name for Identifying'
+        required: true
+        type: string
       package_name:
         description: 'Package name for the build'
         required: true
@@ -86,14 +90,15 @@ jobs:
             "project_id": "${{ inputs.project_id }}",
             "package_name": "${{ inputs.package_name }}",
             "app_name": "${{ inputs.app_name }}"
+            "project_name": "${{ inputs.project_name }}"
           }' > assets/json/code.json
           git checkout master
           git config user.name "hemos811"
           git config user.email "811.hemanthkumar@gmail.com"
           git add assets/json/code.json
-          git commit -m "Added code.json using WorkFlow"
-          git config pull.rebase true
-          git pull origin master
+          git commit -m "Added code.json using Workflow"
+          git fetch origin master
+          git merge origin/master
           git push origin master
 
 
@@ -160,5 +165,3 @@ jobs:
           bcc: ${{ secrets.CLIENT_MAIL_ADDRESS3 }}
           from: ${{ secrets.SENDER_MAIL }}
   
-
-          

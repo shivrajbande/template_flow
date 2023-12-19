@@ -19,6 +19,7 @@ import 'package:dynamic_widget/dynamic_widget/basic/image_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/indexedstack_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/limitedbox_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/listtile_widget_parser.dart';
+
 import 'package:dynamic_widget/dynamic_widget/basic/navigation_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/offstage_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/opacity_widget_parser.dart';
@@ -89,14 +90,15 @@ class DynamicWidgetBuilder {
     ElevatedButtonParser(),
     DividerWidgetParser(),
     TextFieldWidgetParser(),
-    TextButtonParser(),
+    // TextButtonParser(),
     RotatedBoxWidgetParser(),
     CardParser(),
     SingleChildScrollViewParser(),
     PrintParser(),
     RadioButtonListTileParser(),
     CheckBoxWidgetParser(),
-    NavigationParser(null, null)
+    NavigationParser(null,null),
+   
   ];
 
   static final _widgetNameParserMap = <String, WidgetParser>{};
@@ -120,11 +122,12 @@ class DynamicWidgetBuilder {
     }
   }
 
-  static Widget? build(Map<String, String> screensUI, BuildContext buildContext,
-      ClickListener listener, Map<String, dynamic> storage, String screenName) {
+  static Widget? build(String jsonString, BuildContext buildContext,
+      ClickListener listener, Map<String,Map<String, String>> storage, String screenName) {
     initDefaultParsersIfNess();
-    ProjectInfo projectInfo = ProjectInfo(screensUI, storage, "loginscreen");
-    var map = jsonDecode(projectInfo.sreensUI![screenName]!);
+
+    ProjectInfo projectInfo = ProjectInfo(jsonString, storage, screenName);
+    var map = jsonDecode(jsonString);
     ClickListener _listener =
         listener == null ? new NonResponseWidgetClickListener() : listener;
     var widget = buildFromMap(map, buildContext, _listener, projectInfo);
@@ -239,7 +242,7 @@ class NonResponseWidgetClickListener implements ClickListener {
 }
 
 class ProjectInfo {
-  Map<String, String>? sreensUI;
+  String? sreensUI;
   Map<String, dynamic>? projectData;
   String? presentScreen;
   ProjectInfo(this.sreensUI, this.projectData, this.presentScreen);

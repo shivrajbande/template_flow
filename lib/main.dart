@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
     String? projectCode;
     String? clientName;
     String? clientId;
-    
+
     final clientDetails = await rootBundle.loadString("assets/json/code.json");
     var clientjson = jsonDecode(clientDetails);
     appName = clientjson['app_name'];
@@ -57,29 +57,11 @@ class _MyAppState extends State<MyApp> {
       projects.forEach((project) {
         if (project["projectName"] == projectName ||
             project["projectID"] != projectId) {
-          var projectData = project["projectCode"];
-
-          // List<ScreenInfo>? screensData;
-
-          // if (projectData.screenData.length > 0) {
-          //   projectData.screensData.forEach((ScreenInfo screenInfo) {
-          //     ScreenInfo screenInfoInstance = ScreenInfo(
-          //         screenUI: screenInfo.screenUI,
-          //         screenData: screenInfo.screenData,
-          //         screenName: screenInfo.screenName);
-          //     screensData!.add(screenInfoInstance);
-          //   });
-
-          //   projectInfo.screensInfo = screensData;
-          //   projectInfo.screensInfo = projectData.firstScreen;
-          // } else
-           //{
+          screensUI = project["projectCode"];
+          setState(() {});
+        }
+        else{
           
-    
-            setState(() {
-              
-            });
-         // }
         }
       });
     } catch (e) {
@@ -109,7 +91,23 @@ class _MyAppState extends State<MyApp> {
       //     return snapshot.hasData ? snapshot.data! : Text("Loading..");
       //   },
       // )
-      home: Preview(context, projectInfo, "loginscreen"),
+      home: screensUI == null ?
+      const Scaffold(
+        backgroundColor: Color.fromARGB(255, 126, 59, 235),
+        body: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Loading..  ",style: TextStyle(fontSize: 22,color: Colors.white),),
+                CircularProgressIndicator(color: Colors.white,),
+              ],
+            ),),
+          ],
+        ),
+      ): PreviewPage(screensUI!, "loginscreen"),
     );
   }
 }

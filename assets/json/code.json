@@ -1,7 +1,8 @@
 {
   "client_name": "Shiva",
-  "client_id": "zfbXwgSCESELu7GJP2UK",
-  "project_id": "8aac48f1-decb-4162-a4d2-ea2a324f2386",
-  "package_name": "com.test.bench",
-  "app_name": "test bench"
+  "client_id": "7hH1iy4U1IoAwx27Dx1f",
+  "project_id": "06da6574-38be-45e9-a6f0-0dc66b644af3",
+  "package_name": "com.mycompany.demo",
+  "app_name": "demo",
+  "project_name": "Default Project Name"
 }

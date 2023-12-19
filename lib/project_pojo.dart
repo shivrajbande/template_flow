@@ -6,7 +6,6 @@ class ProjectInformation {
 
 class ScreenInfo {
   Map<String, String>? screenUI;
-  Map<String, dynamic>? screenData;
   String? screenName;
-  ScreenInfo({this.screenUI, this.screenData, this.screenName});
+  ScreenInfo({this.screenUI});
 }

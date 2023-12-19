@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:dynamic_widget/dynamic_widget.dart';
+import 'package:dynamic_widget/dynamic_widget/basic/textfield_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/drop_cap_text.dart';
 import 'package:flutter/widgets.dart';
+
 
 TextAlign parseTextAlign(String? textAlignString) {
   //left the system decide
@@ -87,7 +89,21 @@ String? exportTextOverflow(TextOverflow? textOverflow) {
   }
   return rt;
 }
-
+BorderStyleDetails? parseBorderStyleDetails(String? borderStyle){
+  BorderStyleDetails? bordersty;
+  switch(borderStyle) {
+    case  'BorderStyleDetails.OutLine':
+        bordersty=BorderStyleDetails.OutLine;
+        break;
+    case 'BorderStyleDetails.Underline':
+          bordersty=BorderStyleDetails.Underline;
+          break;
+    case 'BorderStyleDetails.None':
+        bordersty=BorderStyleDetails.None;
+        break;
+  }
+  return bordersty;
+}
 TextDecoration parseTextDecoration(String? textDecorationString) {
   TextDecoration textDecoration = TextDecoration.none;
   switch (textDecorationString) {
@@ -145,6 +161,71 @@ String exportTextDirection(TextDirection? textDirection) {
     rt = "rtl";
   }
   return rt;
+}
+
+
+FontWeight parseFontWeightDetails(String? textFontWeight) {
+  FontWeight fontWeight = FontWeight.normal;
+
+  switch (textFontWeight) {
+    case 'FontweightDetails.w100':
+      fontWeight = FontWeight.w100;
+      break;
+    case 'FontweightDetails.w200':
+      fontWeight = FontWeight.w200;
+      break;
+    case 'FontweightDetails.w300':
+      fontWeight = FontWeight.w300;
+      break;
+    case 'FontweightDetails.w400':
+    case 'FontweightDetails.normal':
+      fontWeight = FontWeight.w400;
+      break;
+    case 'FontweightDetails.w500':
+      fontWeight = FontWeight.w500;
+      break;
+    case 'FontweightDetails.w600':
+      fontWeight = FontWeight.w600;
+      break;
+    case 'FontweightDetails.bold':
+    case 'FontweightDetails.w700':
+      fontWeight = FontWeight.w700;
+      break;
+    case 'FontweightDetails.w800':
+      fontWeight = FontWeight.w800;
+      break;
+    case 'FontweightDetails.w900':
+      fontWeight = FontWeight.w900;
+      break;
+    default:
+      fontWeight = FontWeight.normal;
+  }
+
+  return fontWeight;
+}
+
+FontWeight parseFontWeightOtherFormat(String? textFontWeight) {
+  FontWeight fontWeight = FontWeight.normal;
+
+  if (textFontWeight != null) {
+    final weightParts = textFontWeight.split('.');
+
+    if (weightParts.length == 2 && weightParts[0] == 'FontweightDetails') {
+      final weightValue = weightParts[1].substring(1); // Remove the 'w' prefix
+      final intWeightValue = int.tryParse(weightValue);
+
+      if (intWeightValue != null && intWeightValue >= 100 && intWeightValue <= 900) {
+        final intWeightStep = (intWeightValue ~/ 100 - 1);
+        final intWeight = FontWeight.values[0].index + (intWeightStep * 100);
+
+        if (intWeight >= FontWeight.w100.index && intWeight <= FontWeight.w900.index) {
+          fontWeight = FontWeight.values[intWeight ~/ 100];
+        }
+      }
+    }
+  }
+
+  return fontWeight;
 }
 
 FontWeight parseFontWeight(String? textFontWeight) {
@@ -229,6 +310,40 @@ String exportFontWeight(FontWeight? fontWeight) {
 //   return Color(colorInt).withOpacity(opacity);
 // }
 
+// BorderStyleDetails? parseBorderStyle(String input) {
+//   switch (input.toLowerCase()) {
+//     case "underline":
+//       return BorderStyleDetails.Underline;
+//     case "outline":
+//       return BorderStyleDetails.OutLine;
+//     case "none":
+//       return BorderStyleDetails.None;
+//     default:
+//       // Handle the default case or return null if the input is not recognized
+//       return null;
+//   }
+// }
+IconData? parseHexIcon(String? hexIconString) {
+  if (hexIconString == null) {
+    return null;
+  }
+
+  // Remove any leading "0x" or "0X" if present
+  hexIconString = hexIconString.replaceAll("0x", "").replaceAll("0X", "");
+
+  // Remove "U+" prefix if present
+  hexIconString = hexIconString.replaceAll("U+", "");
+
+  try {
+    int codePoint = int.parse(hexIconString, radix: 16);
+    return IconData(codePoint, fontFamily: 'MaterialIcons');
+  } catch (e) {
+    // Handle parsing error if needed
+    print("Error parsing hex icon: $e");
+    return null;
+  }
+}
+
 Color? parseHexColor(String? hexColorString) {
   if (hexColorString == null) {
     return null;
@@ -241,6 +356,32 @@ Color? parseHexColor(String? hexColorString) {
   return Color(colorInt);
 }
 
+bool? parseBool(String? boolString) {
+  if (boolString == null) {
+    return null;
+  }
+
+  boolString = boolString.toLowerCase(); // Convert to lowercase for case-insensitivity
+
+  if (boolString == 'true' || boolString == '1') {
+    return true;
+  } else if (boolString == 'false' || boolString == '0') {
+    return false;
+  } else {
+    return null; // Parsing failed
+  }
+}
+List<String> parseListString(String listString) {
+  try {
+    // Remove leading and trailing square brackets, then split the string into a list
+    List<String> dataList = listString.substring(1, listString.length - 1).split(', ');
+
+    return dataList;
+  } catch (e) {
+    print("Error parsing list string: $e");
+    return [];
+  }
+}
 TextStyle? parseTextStyle(Map<String, dynamic>? map) {
   if (map == null) {
     return null;
@@ -904,9 +1045,9 @@ Axis parseAxis(String? axisString) {
   }
 
   switch (axisString) {
-    case "horizontal":
+    case "Axis.horizontal":
       return Axis.horizontal;
-    case "vertical":
+    case "Axis.vertical":
       return Axis.vertical;
   }
   return Axis.horizontal;

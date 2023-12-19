@@ -2,68 +2,77 @@ import 'package:flutter/material.dart';
 import 'package:template_flow/project_pojo.dart';
 import 'package:dynamic_widget/dynamic_widget.dart';
 
-class Preview extends StatefulWidget {
-  BuildContext context;
-  ProjectInformation? projectInformation;
+class PreviewPage extends StatefulWidget {
+  Map<String, String> screenUI;
   String? screenName;
-
-  Preview(this.context, this.projectInformation, this.screenName, {super.key});
+  PreviewPage(
+    this.screenUI,
+    this.screenName,
+  );
 
   @override
-  State<Preview> createState() =>
-      _PreviewState(context, projectInformation, screenName);
+  State<PreviewPage> createState() => _PreviewPageState();
 }
 
-class _PreviewState extends State<Preview> {
-  BuildContext context;
-  ProjectInformation? projectInformation;
-  String? screenName;
-  _PreviewState(this.context, this.projectInformation, this.screenName);
+class _PreviewPageState extends State<PreviewPage> {
+  late DynamicWidgetJsonExportor? _exportor;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Widget>(
+    return FutureBuilder<Widget?>(
       future: _buildWidget(context),
-      builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<Widget?> snapshot) {
         if (snapshot.hasError) {
-          // print(snapshot.error);
+          print("error is ${snapshot.error}");
+        } else if (snapshot.connectionState == "waiting") {
+          print("waiting");
+        } else if (snapshot.hasData) {
+          return snapshot.data!;
         }
-        return snapshot.hasData ? snapshot.data! : const Text("Loading..");
+        return const Scaffold(
+          body: SizedBox(
+              width: 50,
+              height: 50,
+              child: Center(
+                child: CircularProgressIndicator(),
+              )),
+        );
       },
     );
   }
 
-  Future<Widget>? _buildWidget(context) async {
-    List<ScreenInfo> screens = projectInformation!.screensInfo!;
-    String data = screenName!;
-    Widget? screenWidget;
-    screens.forEach((screenInfo) {
-      if (screenInfo.screenName == data) {
-        Map<String, String>? sreenUI = screenInfo.screenUI;
-        Map<String, dynamic>? screenData = screenInfo.screenData;
-        screenWidget = DynamicWidgetBuilder.build(
-          sreenUI!,
-          context,
-          DefaultClickListener(
-            context,
-            projectInformation,
-            data,
-          ),
-          screenData!,
-          data,
-        );
-      }
-    });
-    return screenWidget!;
+  //Asynchronously builds a widget based on a JSON string.
+  Future<Widget?> _buildWidget(
+    BuildContext context,
+  ) async {
+    String screeCode = widget.screenUI[widget.screenName]!;
+    Map<String, String> screensMap = {};
+    // screensMap[widget.screenName!] = screeCode;
+    String renderingScreenName = widget.screenName!;
+    Map<String, Map<String, String>> storage = {};
+    return DynamicWidgetBuilder.build(
+      screeCode,
+      context,
+      DefaultClickListener(
+        screensMap,
+        renderingScreenName,
+        context,
+      ),
+      storage,
+      renderingScreenName,
+    );
   }
 }
 
 class DefaultClickListener implements ClickListener {
-  BuildContext context;
-  ProjectInformation? projectInformation;
+  Map<String, String>? screensMap;
   String? screenName;
-  DefaultClickListener(this.context, this.projectInformation, this.screenName);
-
+  BuildContext context;
+  DefaultClickListener(
+    this.screensMap,
+    this.screenName,
+    this.context,
+  );
   @override
   void onClicked(
     String? eventFrom,
@@ -79,7 +88,7 @@ class DefaultClickListener implements ClickListener {
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        Preview(context, projectInformation, screenName)));
+                        PreviewPage(screensMap!, screenName)));
             break;
           case "/navigateBack":
             Navigator.pop(context);
@@ -97,4 +106,35 @@ class DefaultClickListener implements ClickListener {
       default:
     }
   }
+}
+// import 'dart:convert';
+
+// import 'package:dynamic_widget/dynamic_widget.dart';
+// import 'package:flutter/widgets.dart';
+
+class DynamicWidgetJsonExportor extends StatelessWidget {
+  final Widget? child;
+
+  final GlobalKey globalKey = GlobalKey();
+
+  DynamicWidgetJsonExportor({
+    this.child,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      key: globalKey,
+      child: child,
+    );
+  }
+
+  // String exportJsonString() {
+  //   String rt = "failed to export";
+  //   globalKey.currentContext!.visitChildElements((element) {
+  //     rt = jsonEncode(DynamicWidgetBuilder.export(element.widget, null));
+  //   });
+  //   return rt;
+  // }
 }

@@ -31,6 +31,7 @@ class AppBarWidgetParser extends WidgetParser {
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
       ClickListener? listener,ProjectInfo projectInfo) {    
     var appBarWidget = AppBar(
+      automaticallyImplyLeading:false,
       title: map.containsKey("title")
           ? DynamicWidgetBuilder.buildFromMap(
               map["title"], buildContext, listener,projectInfo)
