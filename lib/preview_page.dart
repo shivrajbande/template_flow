@@ -3,7 +3,7 @@ import 'package:template_flow/project_pojo.dart';
 import 'package:dynamic_widget/dynamic_widget.dart';
 
 class PreviewPage extends StatefulWidget {
-  Map<String, String> screenUI;
+  Map<String, dynamic> screenUI;
   String? screenName;
   PreviewPage(
     this.screenUI,
@@ -47,7 +47,7 @@ class _PreviewPageState extends State<PreviewPage> {
   ) async {
     String screeCode = widget.screenUI[widget.screenName]!;
     Map<String, String> screensMap = {};
-    // screensMap[widget.screenName!] = screeCode;
+
     String renderingScreenName = widget.screenName!;
     Map<String, Map<String, String>> storage = {};
     return DynamicWidgetBuilder.build(

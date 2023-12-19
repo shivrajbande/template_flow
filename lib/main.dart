@@ -24,7 +24,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   late DynamicWidgetJsonExportor? _exportor;
-  Map<String, String>? screensUI;
+  Map<String, dynamic>? screensUI;
   Map<String, dynamic>? screensData;
   List<String>? screensName;
 
@@ -53,11 +53,14 @@ class _MyAppState extends State<MyApp> {
       DocumentSnapshot data = await users.doc(clientId).get();
       Map<String, dynamic> storedClientDetails =
           data.data() as Map<String, dynamic>;
-      if (storedClientDetails["projectName"] == projectName ||
-            storedClientDetails["projectID"] != projectId) {
-          screensUI = storedClientDetails["projectCode"];
-          setState(() {});
-        }
+      var clientProjects = storedClientDetails["projects"];
+      clientProjects.forEach((project) {
+         if (project["projectName"] == projectName ||
+          project["projectID"] != projectId) {
+        screensUI = project["projectCode"];
+        setState(() {});
+      }
+      });
     } catch (e) {
       print("Error is : ${e}");
     }
@@ -76,32 +79,31 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      //     home: FutureBuilder<Widget>(
-      //   future:
-      //   builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-      //     if (snapshot.hasError) {
-      //       print(snapshot.error);
-      //     }
-      //     return snapshot.hasData ? snapshot.data! : Text("Loading..");
-      //   },
-      // )
-      home: screensUI == null ?
-      const Scaffold(
-        backgroundColor: Color.fromARGB(255, 126, 59, 235),
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Loading..  ",style: TextStyle(fontSize: 22,color: Colors.white),),
-                CircularProgressIndicator(color: Colors.white,),
-              ],
-            ),),
-          ],
-        ),
-      ): PreviewPage(screensUI!, "loginscreen"),
+      home: screensUI == null
+          ? const Scaffold(
+              backgroundColor: Color.fromARGB(255, 126, 59, 235),
+              body: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Loading..  ",
+                          style: TextStyle(fontSize: 22, color: Colors.white),
+                        ),
+                        CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : PreviewPage(screensUI!, "loginscreen"),
     );
   }
 }
