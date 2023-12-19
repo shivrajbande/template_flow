@@ -53,17 +53,11 @@ class _MyAppState extends State<MyApp> {
       DocumentSnapshot data = await users.doc(clientId).get();
       Map<String, dynamic> storedClientDetails =
           data.data() as Map<String, dynamic>;
-      var projects = storedClientDetails["projects"];
-      projects.forEach((project) {
-        if (project["projectName"] == projectName ||
-            project["projectID"] != projectId) {
-          screensUI = project["projectCode"];
+      if (storedClientDetails["projectName"] == projectName ||
+            storedClientDetails["projectID"] != projectId) {
+          screensUI = storedClientDetails["projectCode"];
           setState(() {});
         }
-        else{
-          
-        }
-      });
     } catch (e) {
       print("Error is : ${e}");
     }
