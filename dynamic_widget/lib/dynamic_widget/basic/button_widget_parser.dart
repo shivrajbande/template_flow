@@ -1,11 +1,11 @@
-
+// import 'dart:html';
 
 import 'package:dynamic_widget/dynamic_widget.dart';
-import 'package:dynamic_widget/dynamic_widget/basic/navigation_parser.dart';
+// import 'package:dynamic_widget/dynamic_widget/basic/navigation_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/icons_helper.dart';
 import 'package:dynamic_widget/dynamic_widget/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:dynamic_widget/dynamic_widget/common/rounded_rectangle_border_parser.dart';
+// import 'package:dynamic_widget/dynamic_widget/common/rounded_rectangle_border_parser.dart';
 import 'package:flutter/rendering.dart';
 
 import 'package:flutter/widgets.dart';
@@ -257,6 +257,7 @@ class ElevatedButtonParser extends WidgetParser {
     var minimumSize = Size(buttonWidth ?? 0.0, buttonHeight ?? 0.0);
     String? operation ;
     String? screenName;
+    
     return <String, dynamic>{
       "type": widgetName,
       "foregroundColor": color != null ? color.value.toRadixString(16) : null,
@@ -293,102 +294,270 @@ class ElevatedButtonParser extends WidgetParser {
     double topLeftRadius =
         (map['borderRadius'] as Map<String, dynamic>)['topLeft'].toDouble();
 
-    double topRightRadius =
-        (map['borderRadius'] as Map<String, dynamic>)['topRight'].toDouble();
-    double bottomLeftRadius =
-        (map['borderRadius'] as Map<String, dynamic>)['bottomLeft'].toDouble();
-    double bottomRightRadius =
-        (map['borderRadius'] as Map<String, dynamic>)['bottomRight'].toDouble();
-    double borderWidth = map['borderWidth'].toDouble() ?? 0.0;
-    Color? borderColor =
-        parseHexColor(map['borderColor']); // Access borderColor
-    double buttonWidth = map['buttonWidth'].toDouble() ?? 100.0;
-    double buttonHeight = map['buttonHeight'].toDouble() ?? 80.0;
+          // double topLeftRadius = (map['borderRadius'] as Map<String, dynamic>?)?['topLeft']?.toDouble() ?? 0.0;
+double topRightRadius = (map['borderRadius'] as Map<String, dynamic>?)?['topRight']?.toDouble() ?? 0.0;
+double bottomLeftRadius = (map['borderRadius'] as Map<String, dynamic>?)?['bottomLeft']?.toDouble() ?? 0.0;
+double bottomRightRadius = (map['borderRadius'] as Map<String, dynamic>?)?['bottomRight']?.toDouble() ?? 0.0;
+double borderWidth = map['borderWidth']?.toDouble() ?? 0.0;
+Color? borderColor = parseHexColor(map['borderColor'] as String?);
+double buttonWidth = map['buttonWidth']?.toDouble() ?? 100.0;
+double buttonHeight = map['buttonHeight']?.toDouble() ?? 80.0;
+Color? backgroundColor= parseHexColor(map["backgroundColor"]);
+double elevation = map['elevation']?.toDouble() ??5.0;
+Color? textColor = parseHexColor(map['color'] as String?);
+ FontStyle textFontStyle =
+        'italic' == map['fontStyle'] ? FontStyle.italic : FontStyle.normal;
+   double? fontSize = map['fontSize']?.toDouble();
+     FontWeight fontWeight =
+        parseFontWeightDetails(map['fontWeight']);
+          double? lineHeight = map['lineHeight']?.toDouble();
+ 
+    double? letterSpacing = map['letterSpacing']?.toDouble();
+        TextDecoration decoration =
+        parseTextDecoration(map['decoration']);   
+ 
+Color? hoverFillColor= parseHexColor(map["hoverFillColor"]);
+Color? hoverBorderColor= parseHexColor(map["hoverBorderColor"]);
+   
+   Color? hoverTextColor= parseHexColor(map["hoverTextColor"]);
+    double? hoverElevation = map['hoverElevation']?.toDouble();
+   
+   
+  
+   
     double iconPaddingRight= map['iconPaddingRight'].toDouble() ?? 0.0;
     double iconPaddingLeft= map['iconPaddingLeft'].toDouble() ?? 0.0;
     double iconPaddingBottom = map['iconPaddingBottom'].toDouble() ?? 0.0;
     double iconPaddingTop = map['iconPaddingTop'].toDouble() ?? 0.0;
-    String? operation= map['operation'] ;
-    String? screenName=map['screenName'];
+    // String? operation= map['operation'] ;
+    // String? screenName=map['screenName'];
+    String? data=map['data'];
     String? clickEvent =
         map.containsKey("click_event") ? map['click_event'] : "";
          IconData? prefixIcon= getIconUsingPrefix(name: map['icondata']);
          bool? hasIcon= parseBool(map['hasIcon']);
+
+  ButtonParams params = new ButtonParams(buttonWidth,buttonHeight,data,backgroundColor,elevation,BorderRadius.only(topLeft:Radius.circular(topLeftRadius) ,bottomLeft:Radius.circular(bottomLeftRadius) ,topRight:Radius.circular(topRightRadius) ,bottomRight:Radius.circular(bottomRightRadius) ),borderWidth,borderColor,iconPaddingTop,iconPaddingBottom,iconPaddingLeft,iconPaddingRight,hasIcon,prefixIcon,textColor,textFontStyle,fontSize!,fontWeight,lineHeight!,letterSpacing!,decoration,hoverFillColor,hoverBorderColor,hoverTextColor,hoverElevation);
+ 
+
+  return CustomButtonClass(params);
    
-    return ElevatedButton(
-      onPressed: () {
-        // listener!.onClicked("Button","/navigateTo",{"ScreenName":"welcomescreen"});
-        // NavigationParser(operation,screenName);
-      },
-      style: ElevatedButton.styleFrom(
-        minimumSize: Size(buttonWidth, buttonHeight),
-        foregroundColor: map.containsKey("foregroundColor")
-            ? parseHexColor(map["foregroundColor"])
-            : null,
-        backgroundColor: map.containsKey("backgroundColor")
-            ? parseHexColor(map["backgroundColor"])
-            : null,
-        shadowColor: map.containsKey("shadowColor")
-            ? parseHexColor(map["shadowColor"])
-            : null,
-        elevation:
-            map.containsKey("elevation") ? map["elevation"].toDouble() : null,
-        padding: map.containsKey("padding")
-            ? parseEdgeInsetsGeometry(map["padding"].toDouble())
-            : null,
-        textStyle: map.containsKey("textStyle")
-            ? parseTextStyle(map["textStyle"])
-            : null,
-        alignment: map.containsKey("alignment")
-            ? parseAlignment(map["alignment"])
-            : null,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(topLeftRadius),
-            topRight: Radius.circular(topRightRadius),
-            bottomLeft: Radius.circular(bottomLeftRadius),
-            bottomRight: Radius.circular(bottomRightRadius),
-          ),
-          side: BorderSide(
-            width: borderWidth,
-            color: borderColor ?? Colors.black,
-          ), // Add border width
-        ),
-      ),
-
-      // shape: map.containsKey("shape")
-      //     ? RoundedRectangleBorder(
-      //         borderRadius: BorderRadius.circular(map['shape']),
-      //         side: parseBorderSide(map['shape']))
-      //     : null,
-
-      child:(hasIcon==true)?
-      
-       Container(
-        width:buttonWidth,
-        height: buttonHeight ,
-        child: Center(
-          child: Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding:  EdgeInsets.only(left:iconPaddingRight,right: iconPaddingLeft,top: iconPaddingTop,bottom: iconPaddingBottom),
-                child: Icon(prefixIcon,color:Colors.black,),
-              ),
-              SizedBox(width:8),
-              child
-            ],
-          ),
-        ),
-      ):child
-    );
-  }
+    }
 
   @override
   String get widgetName => "ElevatedButton";
 
   @override
   Type get widgetType => ElevatedButton;
+}
+class ButtonParams {
+
+  double buttonWidth;
+  double buttonHeight;
+  String? data;
+   Color? backgroundColor;
+    double? elevation;
+    BorderRadiusGeometry? borderRadius;
+    double? borderWidth;
+    Color? borderColor;
+    double iconPaddingTop;
+    double iconPaddingBottom;
+    double iconPaddingLeft;
+    double iconPaddingRight;
+    bool? hasIcon;
+    IconData? prefixIcon;
+    Color? textColor;FontStyle textFontStyle;double fontSize;FontWeight fontWeight;double lineHeight;double letterSpacing;  TextDecoration subDecoration;
+    Color? hoverFillColor;
+     Color? hoverBorderColor;
+      Color? hoverTextColor;
+      double? hoverElevation;
+
+  // String? operation;
+  // String? screenName;
+  // Add other parameters for your button as needed
+  // ...
+
+  ButtonParams(
+   
+     this.buttonWidth,
+     this.buttonHeight,
+     this.data,
+     this.backgroundColor,
+     this.elevation,
+     this.borderRadius,
+      this.borderWidth,
+      this.borderColor,
+      this.iconPaddingTop,
+   this.iconPaddingBottom,
+   this.iconPaddingLeft,
+   this.iconPaddingRight,
+this.hasIcon,
+this.prefixIcon,
+this.textColor,this.textFontStyle,this.fontSize,this.fontWeight,this.lineHeight,this.letterSpacing,this.subDecoration,this.hoverFillColor,
+this.hoverBorderColor,
+this.hoverTextColor,
+this.hoverElevation,
+    // this.operation,
+    // this.screenName,
+   
+  );
+}
+
+class CustomButtonClass extends StatefulWidget {
+  ButtonParams params;
+
+  CustomButtonClass(this.params);
+
+  @override
+  State<CustomButtonClass> createState() => _CustomButtonClassState(params);
+}
+
+class _CustomButtonClassState extends State<CustomButtonClass> {
+  ButtonParams? params;
+bool isHover=false;
+  _CustomButtonClassState(this.params);
+
+
+  @override
+  Widget build(BuildContext context) {
+      
+    TextStyle mystyle = TextStyle(
+      color:params!.textColor,
+      fontWeight: params!.fontWeight,
+      fontSize: params!.fontSize,
+      height: params!.lineHeight,
+      letterSpacing: params!.letterSpacing,
+      decoration: params!.subDecoration,
+      fontStyle: params!.textFontStyle,
+    );
+     TextStyle hoverStyle = TextStyle(
+      color: params!.hoverTextColor ,
+      fontWeight: params!.fontWeight,
+       fontSize: params!.fontSize,
+      height: params!.lineHeight,
+      letterSpacing: params!.letterSpacing,
+      decoration: params!.subDecoration,
+      fontStyle: params!.textFontStyle,
+    );
+     TextStyle textStyle = isHover ? hoverStyle : mystyle;
+    return  ElevatedButton(
+      onPressed: () {
+        
+      },
+      onHover: (hover) {
+        setState(() {
+          isHover = hover;
+        });
+      },
+      
+      style: ButtonStyle(
+     
+        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+      (Set<MaterialState> states) {
+        if (states.contains(MaterialState.pressed)) {
+         
+          return params!.backgroundColor!; 
+        } else if (states.contains(MaterialState.hovered)) {
+         
+          return params!.hoverFillColor!; 
+        } else {
+         
+          return params!.backgroundColor!; 
+        }
+      },
+    ),
+        minimumSize: MaterialStateProperty.resolveWith<Size>(
+      (Set<MaterialState> states) {
+       
+        if (states.contains(MaterialState.pressed)) {
+        
+          return Size(params!.buttonWidth, params!.buttonHeight);
+        } else {
+         
+          return Size(params!.buttonWidth, params!.buttonHeight);
+        }
+      },
+    ),
+              elevation: MaterialStateProperty.resolveWith<double>(
+      (Set<MaterialState> states) {
+        if (states.contains(MaterialState.hovered)) {
+          return params!.hoverElevation!; 
+        } else {
+          return  params!.elevation!;
+        }
+          
+       
+      },
+    ),
+    shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
+      (Set<MaterialState> states) {
+        if (states.contains(MaterialState.hovered)) {
+          return RoundedRectangleBorder(
+            borderRadius: params!.borderRadius!, 
+            side: BorderSide(color: params!.hoverBorderColor ?? Colors.black,width: params!.borderWidth ?? 0.0, ),
+          );
+        } else {
+          return RoundedRectangleBorder(
+            borderRadius: params!.borderRadius!, 
+            side: BorderSide(color: params!.borderColor ?? Colors.black,width: params!.borderWidth ?? 0.0, ),
+          );
+        }
+      },
+    ),
+    //  shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
+    //   (Set<MaterialState> states) {
+      
+    //       return RoundedRectangleBorder(
+    //         borderRadius: params!.borderRadius!, 
+    //         side: BorderSide(color: params!.borderColor ?? Colors.black,width: params!.borderWidth ?? 0.0, ),
+    //       );
+       
+    //   },
+    // ),  
+              ),
+      // style: ElevatedButton.styleFrom(
+      //   minimumSize: Size(params!.buttonWidth, params!.buttonHeight),
+      
+      //   backgroundColor:(isHover)?Colors.red: params!.backgroundColor,
+     
+       
+      //   elevation: params!.elevation,
+       
+      //   shape: RoundedRectangleBorder(
+      //     borderRadius: params!.borderRadius!,
+      //     side: BorderSide(
+      //       width: params!.borderWidth ?? 0.0,
+      //       color: params!.borderColor ?? Colors.black,
+      //     ),
+      //   ),
+       
+      // ),
+     
+     
+      child:(params!.hasIcon==true)? Container(
+        width:params!.buttonWidth,
+        height: params!.buttonHeight ,
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Padding(
+                padding:  EdgeInsets.only(left:params!.iconPaddingRight,right: params!.iconPaddingLeft,top: params!.iconPaddingTop,bottom: params!.iconPaddingBottom),
+                child: Icon(params!.prefixIcon,color:Colors.black,),
+              ),
+              // SizedBox(width:),
+              Text(params!.data!,style:textStyle) 
+            ],
+          ),
+        ),
+      )
+      
+      :Text(params!.data!,style:textStyle) 
+    );
+  
+  
+  
+  }
 }
 
 class TextButtonParser extends WidgetParser {

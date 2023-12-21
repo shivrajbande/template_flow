@@ -47,6 +47,7 @@ class _PreviewPageState extends State<PreviewPage> {
   ) async {
     String screeCode = widget.screenUI[widget.screenName]!;
     Map<String, String> screensMap = {};
+    print(screeCode);
 
     String renderingScreenName = widget.screenName!;
     Map<String, Map<String, String>> storage = {};

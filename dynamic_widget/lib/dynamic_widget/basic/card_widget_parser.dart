@@ -2,14 +2,14 @@ import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:dynamic_widget/dynamic_widget/common/rounded_rectangle_border_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/utils.dart';
 import 'package:flutter/material.dart';
-
+ 
 class CardParser extends WidgetParser {
   @override
   String get widgetName => 'Card';
-
+ 
   @override
   Type get widgetType => Card;
-
+ 
   @override
   Map<String, dynamic>? export(Widget? widget, BuildContext? buildContext) {
     if (widget != null && widget is Card) {
@@ -36,7 +36,7 @@ class CardParser extends WidgetParser {
             widget.shape as RoundedRectangleBorder);
       } else
         shape = null;
-
+ 
       final Map<String, dynamic> map = {
         "type": widgetName,
       };
@@ -49,11 +49,11 @@ class CardParser extends WidgetParser {
       map['semanticContainer'] = semanticContainer;
       if (childMap != null) map['child'] = childMap;
       if (shape != null) map['shape'] = shape;
-
+ 
       return map;
     }
   }
-
+ 
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
       ClickListener? listener,ProjectInfo projectInfo) {
@@ -70,12 +70,30 @@ class CardParser extends WidgetParser {
         : DynamicWidgetBuilder.buildFromMap(childMap, buildContext, listener,projectInfo);
     final RoundedRectangleBorder? shape =
         RoundedRectangleBorderParser.parse(map['shape']);
+    double topLeftRadius =
+        (map['borderRadius'] as Map<String, dynamic>)['topLeft'].toDouble();
+
+    double topRightRadius =
+        (map['borderRadius'] as Map<String, dynamic>)['topRight'].toDouble();
+    double bottomLeftRadius =
+        (map['borderRadius'] as Map<String, dynamic>)['bottomLeft'].toDouble();
+    double bottomRightRadius =
+        (map['borderRadius'] as Map<String, dynamic>)['bottomRight'].toDouble();
 
     var card = Card(
+      
       color: color,
       shadowColor: shadowColor,
       elevation: elevation,
-      shape: shape,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(topLeftRadius),
+            topRight: Radius.circular(topRightRadius),
+            bottomLeft: Radius.circular(bottomLeftRadius),
+            bottomRight: Radius.circular(bottomRightRadius),
+          ),
+           // Add border width
+        ),
       borderOnForeground: borderOnForeground,
       margin: margin,
       semanticContainer: semanticContainer,
@@ -85,3 +103,4 @@ class CardParser extends WidgetParser {
     return card;
   }
 }
+ 
