@@ -15,9 +15,13 @@ class ContainerWidgetParser extends WidgetParser {
             ? parseHexColor(map['borderColor'])!
             // : Color(0xFF000000)) ;
             : Color(0xFFFFFF));
-            Color? boxShadowColor = (map.containsKey('boxShadowColor')
+    Color? boxShadowColor = (map.containsKey('boxShadowColor')
             ? parseHexColor(map['boxShadowColor'])!
             : Color(0xFFFFFF));
+    double  blurRadius=  map.containsKey("blurRadius") ? map['blurRadius']?.toDouble() : 5.0;
+    double  spread=  map.containsKey("spread") ? map['spread']?.toDouble() : 5.0;
+    double  offsetx=  map.containsKey("offsetx") ? map['offsetx']?.toDouble() : 5.0;
+    double  offsety=  map.containsKey("offsety") ? map['offsety']?.toDouble() : 5.0;
     //as Color? "#2196f3"
     BoxConstraints constraints = parseBoxConstraints(map['constraints']);
     //TODO: decoration, foregroundDecoration and transform properties to be implemented.
@@ -43,6 +47,9 @@ class ContainerWidgetParser extends WidgetParser {
         boxShadow: [
           BoxShadow(
             color: boxShadowColor,
+            blurRadius:blurRadius,
+            spreadRadius:spread,
+            offset: Offset(offsetx,offsety),
            // blurRadius: 
           )
         ],
