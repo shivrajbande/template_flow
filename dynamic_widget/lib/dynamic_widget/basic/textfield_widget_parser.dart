@@ -69,7 +69,7 @@ class TextFieldWidgetParser extends WidgetParser {
       double? fontSize = map['fontSize']?.toDouble();
    
     BorderStyleDetails? borderStyle =parseBorderStyleDetails( map['borderStyle']);  
-    double focusWidth = map['focusWidth'] ?? 100.0;  
+    double focusWidth = map['focusWidth'].toDouble() ?? 100.0;  
    double   imageBorderradius = map['imageBorderradius']?.toDouble();
    double imageBorderradiusRight =  map['imageBorderradiusRight']?.toDouble();
   double borderBottumLeft = map['borderBottumLeft']?.toDouble();
