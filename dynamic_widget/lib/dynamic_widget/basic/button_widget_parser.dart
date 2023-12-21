@@ -1,13 +1,9 @@
-import 'dart:html';
+// ignore_for_file: unnecessary_import, unnecessary_null_comparison, unused_local_variable, must_be_immutable
 
 import 'package:dynamic_widget/dynamic_widget.dart';
-import 'package:dynamic_widget/dynamic_widget/basic/navigation_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/icons_helper.dart';
 import 'package:dynamic_widget/dynamic_widget/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:dynamic_widget/dynamic_widget/common/rounded_rectangle_border_parser.dart';
-import 'package:flutter/rendering.dart';
-
 import 'package:flutter/widgets.dart';
 //for button opacity use this below code
 // class ElevatedButtonParser extends WidgetParser {
