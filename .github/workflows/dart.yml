@@ -131,15 +131,6 @@ jobs:
 
       - name: List Staged Files
         run: git diff --cached --name-only
-
-      - name: Commit APKs to Repository
-        run: |
-          git checkout master
-          git add apk/*.apk
-          git commit -m "Added Changed APK files"
-          git pull origin master
-          git push origin master
-
      
       - name: Upload APK Artifacts
         uses: actions/upload-artifact@v3
