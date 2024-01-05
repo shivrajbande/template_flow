@@ -33,11 +33,11 @@ on:
         type: string
       app_icon_url:
         description: "App Icon Url"
-        required: true
+        required: false
         type: string
       home_page_name: 
         description: "Name of the Home Page in the App"
-        required: true
+        required: false 
         type: string
 
 
