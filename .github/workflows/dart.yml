@@ -30,7 +30,16 @@ on:
       client_email:
         description: "Email Ids of the Client"
         required: true 
-        type: string        
+        type: string
+      app_icon_url:
+        description: "App Icon Url"
+        required: true
+        type: string
+      home_page_name: 
+        description: "Name of the Home Page in the App"
+        required: true
+        type: string
+
 
 jobs:
   build:
@@ -81,6 +90,11 @@ jobs:
 
       - name: Create 'apk' Folder if Not Exist
         run: mkdir -p apk
+      
+      - name: Download App Icon
+        run: |
+            mkdir -p assets/images
+            curl -o assets/images/app_icon.png "${{ inputs.app_icon_url }}"
 
       - name: Create APK Config JSON
         run: |
@@ -91,12 +105,14 @@ jobs:
             "package_name": "${{ inputs.package_name }}",
             "app_name": "${{ inputs.app_name }}",
             "project_name": "${{ inputs.project_name }}"
+            "home_page_name": "${{ inputs.home_page_name }}"
+            
           }' > assets/json/code.json
           git checkout master
           git config user.name "hemos811"
           git config user.email "811.hemanthkumar@gmail.com"
-          git add assets/json/code.json
-          git commit -m "Added code.json using Workflow"
+          git add assets
+          git commit -m "Added code.json and App Icon using Workflow"
           git fetch origin master
           git merge origin/master
           git push origin master
