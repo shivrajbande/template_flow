@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
       var clientProjects = storedClientDetails["projects"];
       clientProjects.forEach((project) {
          if (project["projectName"] == projectName ||
-          project["projectID"] != projectId) {
+          project["projectID"] == projectId) {
         screensUI = project["projectCode"];
         setState(() {});
       }
