@@ -18,10 +18,20 @@ class ContainerWidgetParser extends WidgetParser {
     Color? boxShadowColor = (map.containsKey('boxShadowColor')
             ? parseHexColor(map['boxShadowColor'])!
             : Color(0xFFFFFF));
-    double  blurRadius=  map.containsKey("blurRadius") ? map['blurRadius']?.toDouble() : 5.0;
-    double  spread=  map.containsKey("spread") ? map['spread']?.toDouble() : 5.0;
-    double  offsetx=  map.containsKey("offsetx") ? map['offsetx']?.toDouble() : 5.0;
-    double  offsety=  map.containsKey("offsety") ? map['offsety']?.toDouble() : 5.0;
+    double  blurRadius=  map.containsKey("blurRadius") ? map['blurRadius']?.toDouble() : 0.0;
+    double  spread=  map.containsKey("spread") ? map['spread']?.toDouble() : 0.0;
+    double  offsetx=  map.containsKey("offsetx") ? map['offsetx']?.toDouble() : 0.0;
+    double  offsety=  map.containsKey("offsety") ? map['offsety']?.toDouble() : 0.0;
+     double topLeftRadius =
+        (map['borderRadius'] as Map<String, dynamic>)['topLeft'].toDouble();
+
+    double topRightRadius =
+        (map['borderRadius'] as Map<String, dynamic>)['topRight'].toDouble();
+    double bottomLeftRadius =
+        (map['borderRadius'] as Map<String, dynamic>)['bottomLeft'].toDouble();
+    double bottomRightRadius =
+        (map['borderRadius'] as Map<String, dynamic>)['bottomRight'].toDouble();
+
     //as Color? "#2196f3"
     BoxConstraints constraints = parseBoxConstraints(map['constraints']);
     //TODO: decoration, foregroundDecoration and transform properties to be implemented.
@@ -53,18 +63,35 @@ class ContainerWidgetParser extends WidgetParser {
            // blurRadius: 
           )
         ],
+        borderRadius:BorderRadius.only(
+               topLeft:Radius.circular(topLeftRadius),
+               topRight: Radius.circular(topRightRadius) ,
+               bottomLeft: Radius.circular(bottomLeftRadius ),
+               bottomRight: Radius.circular(bottomRightRadius) ,),
+            
           color: color,
-          border: Border.all(
-              //  color: const Color(0xFF000000),//borderColor!,
-              color: borderColor,
-              width: map['borderWidth']?.toDouble() ?? 1.0)),
-      // decoration: BoxDecoration(
-      //     border: Border.all(
-      //       width:map['width']?.toDouble(),
-      //     )
-      // ),
-      child: child,
-    );
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: boxShadowColor,
+          //     blurRadius:blurRadius,
+          //     spreadRadius:spread,
+          //     offset: Offset(offsetx,offsety),
+          //    // blurRadius: 
+          //   )
+          // ],
+            // color: Colors.red,
+            border: Border.all(
+                //  color: const Color(0xFF000000),//borderColor!,
+                color: map['borderWidth']?.toDouble()==0? Colors.transparent:borderColor,
+                width: map['borderWidth']?.toDouble() ?? 0.0)),
+        // decoration: BoxDecoration(
+        //     border: Border.all(
+        //       width:map['width']?.toDouble(),
+        //     )
+        // ),
+        child: child,
+      );
+    
 
     if (listener != null && clickEvent != null) {
       return GestureDetector(
@@ -76,6 +103,7 @@ class ContainerWidgetParser extends WidgetParser {
     } else {
       return containerWidget;
     }
+  //  return  Container(height: 120,width: 120,color: Colors.red,);
   }
 
   @override

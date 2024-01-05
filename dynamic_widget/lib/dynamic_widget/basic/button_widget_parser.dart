@@ -1,10 +1,15 @@
-// ignore_for_file: unnecessary_import, unnecessary_null_comparison, unused_local_variable, must_be_immutable
+import 'dart:html';
 
 import 'package:dynamic_widget/dynamic_widget.dart';
+import 'package:dynamic_widget/dynamic_widget/basic/navigation_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/icons_helper.dart';
 import 'package:dynamic_widget/dynamic_widget/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:dynamic_widget/dynamic_widget/common/rounded_rectangle_border_parser.dart';
+import 'package:flutter/rendering.dart';
+
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 //for button opacity use this below code
 // class ElevatedButtonParser extends WidgetParser {
 //   @override
@@ -251,9 +256,9 @@ class ElevatedButtonParser extends WidgetParser {
       buttonHeight = null;
     }
     var minimumSize = Size(buttonWidth ?? 0.0, buttonHeight ?? 0.0);
-    String? operation ;
+    String? operation;
     String? screenName;
-    
+
     return <String, dynamic>{
       "type": widgetName,
       "foregroundColor": color != null ? color.value.toRadixString(16) : null,
@@ -275,70 +280,117 @@ class ElevatedButtonParser extends WidgetParser {
       "borderColor": borderColor,
       "buttonWidth": buttonWidth,
       "buttonHeight": buttonHeight,
-      "operation":operation,
-      "screenName":screenName,
-      
+      "operation": operation,
+      "screenName": screenName,
+
       "child": DynamicWidgetBuilder.export(realWidget.child, buildContext)
     };
   }
 
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener,ProjectInfo projectInfo) {
-        dynamic child = DynamicWidgetBuilder.buildFromMap(
-          map['child'], buildContext, listener,projectInfo);
+      ClickListener? listener, ProjectInfo projectInfo) {
+    dynamic child = DynamicWidgetBuilder.buildFromMap(
+        map['child'], buildContext, listener, projectInfo);
     double topLeftRadius =
         (map['borderRadius'] as Map<String, dynamic>)['topLeft'].toDouble();
 
-          // double topLeftRadius = (map['borderRadius'] as Map<String, dynamic>?)?['topLeft']?.toDouble() ?? 0.0;
-double topRightRadius = (map['borderRadius'] as Map<String, dynamic>?)?['topRight']?.toDouble() ?? 0.0;
-double bottomLeftRadius = (map['borderRadius'] as Map<String, dynamic>?)?['bottomLeft']?.toDouble() ?? 0.0;
-double bottomRightRadius = (map['borderRadius'] as Map<String, dynamic>?)?['bottomRight']?.toDouble() ?? 0.0;
-double borderWidth = map['borderWidth']?.toDouble() ?? 0.0;
-Color? borderColor = parseHexColor(map['borderColor'] as String?);
-double buttonWidth = map['buttonWidth']?.toDouble() ?? 100.0;
-double buttonHeight = map['buttonHeight']?.toDouble() ?? 80.0;
-Color? backgroundColor= parseHexColor(map["backgroundColor"]);
-double elevation = map['elevation']?.toDouble() ??5.0;
-Color? textColor = parseHexColor(map['color'] as String?);
- FontStyle textFontStyle =
+    // double topLeftRadius = (map['borderRadius'] as Map<String, dynamic>?)?['topLeft']?.toDouble() ?? 0.0;
+    double topRightRadius =
+        (map['borderRadius'] as Map<String, dynamic>?)?['topRight']
+                ?.toDouble() ??
+            0.0;
+    double bottomLeftRadius =
+        (map['borderRadius'] as Map<String, dynamic>?)?['bottomLeft']
+                ?.toDouble() ??
+            0.0;
+    double bottomRightRadius =
+        (map['borderRadius'] as Map<String, dynamic>?)?['bottomRight']
+                ?.toDouble() ??
+            0.0;
+    double borderWidth = map['borderWidth']?.toDouble() ?? 0.0;
+    Color? borderColor = parseHexColor(map['borderColor'] as String?);
+    double buttonWidth = map['buttonWidth']?.toDouble() ?? 100.0;
+    double buttonHeight = map['buttonHeight']?.toDouble() ?? 80.0;
+    Color? backgroundColor = parseHexColor(map["backgroundColor"]);
+    double elevation = map['elevation']?.toDouble() ?? 5.0;
+    Color? textColor = parseHexColor(map['color'] as String?);
+    FontStyle textFontStyle =
         'italic' == map['fontStyle'] ? FontStyle.italic : FontStyle.normal;
-   double? fontSize = map['fontSize']?.toDouble();
-     FontWeight fontWeight =
-        parseFontWeightDetails(map['fontWeight']);
-          double? lineHeight = map['lineHeight']?.toDouble();
- 
+    double? fontSize = map['fontSize']?.toDouble();
+    FontWeight fontWeight = parseFontWeightDetails(map['fontWeight']);
+    double? lineHeight = map['lineHeight']?.toDouble();
+
     double? letterSpacing = map['letterSpacing']?.toDouble();
-        TextDecoration decoration =
-        parseTextDecoration(map['decoration']);   
- 
-Color? hoverFillColor= parseHexColor(map["hoverFillColor"]);
-Color? hoverBorderColor= parseHexColor(map["hoverBorderColor"]);
-   
-   Color? hoverTextColor= parseHexColor(map["hoverTextColor"]);
+    TextDecoration decoration = parseTextDecoration(map['decoration']);
+
+    Color? hoverFillColor = parseHexColor(map["hoverFillColor"]);
+    Color? hoverBorderColor = parseHexColor(map["hoverBorderColor"]);
+
+    Color? hoverTextColor = parseHexColor(map["hoverTextColor"]);
     double? hoverElevation = map['hoverElevation']?.toDouble();
-   
+      Color? disabledFillColor= parseHexColor(map["disabledFillColor"]);
+        Color? disabledTextColor= parseHexColor(map["disabledTextColor"]);
+
+   bool showPreview=map['showPreview'];
+   String? selectedFontFamily = map['selectedFontFamily'];
    
   
    
     double iconPaddingRight= map['iconPaddingRight'].toDouble() ?? 0.0;
     double iconPaddingLeft= map['iconPaddingLeft'].toDouble() ?? 0.0;
+
+  
     double iconPaddingBottom = map['iconPaddingBottom'].toDouble() ?? 0.0;
     double iconPaddingTop = map['iconPaddingTop'].toDouble() ?? 0.0;
     // String? operation= map['operation'] ;
     // String? screenName=map['screenName'];
-    String? data=map['data'];
+    String? data = map['data'];
     String? clickEvent =
         map.containsKey("click_event") ? map['click_event'] : "";
-         IconData? prefixIcon= getIconUsingPrefix(name: map['icondata']);
-         bool? hasIcon= parseBool(map['hasIcon']);
+    IconData? prefixIcon = getIconUsingPrefix(name: map['icondata']);
+    bool? hasIcon = parseBool(map['hasIcon']);
 
-  ButtonParams params = new ButtonParams(buttonWidth,buttonHeight,data,backgroundColor,elevation,BorderRadius.only(topLeft:Radius.circular(topLeftRadius) ,bottomLeft:Radius.circular(bottomLeftRadius) ,topRight:Radius.circular(topRightRadius) ,bottomRight:Radius.circular(bottomRightRadius) ),borderWidth,borderColor,iconPaddingTop,iconPaddingBottom,iconPaddingLeft,iconPaddingRight,hasIcon,prefixIcon,textColor,textFontStyle,fontSize!,fontWeight,lineHeight!,letterSpacing!,decoration,hoverFillColor,hoverBorderColor,hoverTextColor,hoverElevation);
+  // ButtonParams params = new ButtonParams(buttonWidth,buttonHeight,data,backgroundColor,elevation,BorderRadius.only(topLeft:Radius.circular(topLeftRadius) ,bottomLeft:Radius.circular(bottomLeftRadius) ,topRight:Radius.circular(topRightRadius) ,bottomRight:Radius.circular(bottomRightRadius) ),borderWidth,borderColor,iconPaddingTop,iconPaddingBottom,iconPaddingLeft,iconPaddingRight,hasIcon,prefixIcon,textColor,textFontStyle,fontSize!,fontWeight,lineHeight!,letterSpacing!,decoration,hoverFillColor,hoverBorderColor,hoverTextColor,hoverElevation,);
  
+    String? actionType = map['actionType'];
+    String? navigateTo = map['navigateTo'];
 
-  return CustomButtonClass(params);
-   
-    }
+    ButtonParams params = new ButtonParams(
+        buttonWidth,
+        buttonHeight,
+        data,
+        backgroundColor,
+        elevation,
+        BorderRadius.only(
+            topLeft: Radius.circular(topLeftRadius),
+            bottomLeft: Radius.circular(bottomLeftRadius),
+            topRight: Radius.circular(topRightRadius),
+            bottomRight: Radius.circular(bottomRightRadius)),
+        borderWidth,
+        borderColor,
+        iconPaddingTop,
+        iconPaddingBottom,
+        iconPaddingLeft,
+        iconPaddingRight,
+        hasIcon,
+        prefixIcon,
+        textColor,
+        textFontStyle,
+        fontSize!,
+        fontWeight,
+        lineHeight!,
+        letterSpacing!,
+        decoration,
+        hoverFillColor,
+        hoverBorderColor,
+        hoverTextColor,
+        hoverElevation,
+        actionType,
+        navigateTo,disabledFillColor,disabledTextColor,showPreview,selectedFontFamily);
+
+    return CustomButtonClass(params, listener!);
+  }
 
   @override
   String get widgetName => "ElevatedButton";
@@ -346,8 +398,8 @@ Color? hoverBorderColor= parseHexColor(map["hoverBorderColor"]);
   @override
   Type get widgetType => ElevatedButton;
 }
-class ButtonParams {
 
+class ButtonParams {
   double buttonWidth;
   double buttonHeight;
   String? data;
@@ -367,6 +419,12 @@ class ButtonParams {
      Color? hoverBorderColor;
       Color? hoverTextColor;
       double? hoverElevation;
+        String? actionType;
+  String? screenName;
+      Color? disabledFillColor;
+      Color? disabledTextColor;
+      bool showPreview;
+      String? selectedFontFamily;
 
   // String? operation;
   // String? screenName;
@@ -393,43 +451,54 @@ this.textColor,this.textFontStyle,this.fontSize,this.fontWeight,this.lineHeight,
 this.hoverBorderColor,
 this.hoverTextColor,
 this.hoverElevation,
+  this.actionType,
+    this.screenName,
+this.disabledFillColor,
+this.disabledTextColor,
+this.showPreview,
+this.selectedFontFamily,
     // this.operation,
     // this.screenName,
-   
   );
 }
 
 class CustomButtonClass extends StatefulWidget {
   ButtonParams params;
+  ClickListener listener;
 
-  CustomButtonClass(this.params);
+  CustomButtonClass(this.params, this.listener);
 
   @override
-  State<CustomButtonClass> createState() => _CustomButtonClassState(params);
+  State<CustomButtonClass> createState() =>
+      _CustomButtonClassState(params, listener);
 }
 
 class _CustomButtonClassState extends State<CustomButtonClass> {
   ButtonParams? params;
-bool isHover=false;
-  _CustomButtonClassState(this.params);
-
+  ClickListener listener;
+  bool isHover = false;
+  _CustomButtonClassState(this.params, this.listener);
 
   @override
   Widget build(BuildContext context) {
-      
-    TextStyle mystyle = TextStyle(
-      color:params!.textColor,
+    TextStyle mystyle =  myButtonFonts(
+      params!.selectedFontFamily!,
+      );
+    
+    
+    // TextStyle(
+    //   color:(params!.showPreview)?params!.disabledTextColor: params!.textColor,
+    //   fontWeight: params!.fontWeight,
+    //   fontSize: params!.fontSize,
+    //   height: params!.lineHeight,
+    //   letterSpacing: params!.letterSpacing,
+    //   decoration: params!.subDecoration,
+    //   fontStyle: params!.textFontStyle,
+    // );
+     TextStyle hoverStyle = TextStyle(
+      color:(params!.showPreview)?params!.disabledTextColor:  params!.hoverTextColor ,
       fontWeight: params!.fontWeight,
       fontSize: params!.fontSize,
-      height: params!.lineHeight,
-      letterSpacing: params!.letterSpacing,
-      decoration: params!.subDecoration,
-      fontStyle: params!.textFontStyle,
-    );
-     TextStyle hoverStyle = TextStyle(
-      color: params!.hoverTextColor ,
-      fontWeight: params!.fontWeight,
-       fontSize: params!.fontSize,
       height: params!.lineHeight,
       letterSpacing: params!.letterSpacing,
       decoration: params!.subDecoration,
@@ -438,8 +507,9 @@ bool isHover=false;
      TextStyle textStyle = isHover ? hoverStyle : mystyle;
     return  ElevatedButton(
       onPressed: () {
-        
-      },
+          listener
+              .onClicked("Button", params!.actionType, {"screenName" : params!.screenName});
+        },
       onHover: (hover) {
         setState(() {
           isHover = hover;
@@ -458,7 +528,7 @@ bool isHover=false;
           return params!.hoverFillColor!; 
         } else {
          
-          return params!.backgroundColor!; 
+          return (params!.showPreview)?params!.disabledFillColor!: params!.backgroundColor!; 
         }
       },
     ),
@@ -500,164 +570,140 @@ bool isHover=false;
         }
       },
     ),
-    //  shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
-    //   (Set<MaterialState> states) {
-      
-    //       return RoundedRectangleBorder(
-    //         borderRadius: params!.borderRadius!, 
-    //         side: BorderSide(color: params!.borderColor ?? Colors.black,width: params!.borderWidth ?? 0.0, ),
-    //       );
        
-    //   },
-    // ),  
               ),
-      // style: ElevatedButton.styleFrom(
-      //   minimumSize: Size(params!.buttonWidth, params!.buttonHeight),
       
-      //   backgroundColor:(isHover)?Colors.red: params!.backgroundColor,
-     
-       
-      //   elevation: params!.elevation,
-       
-      //   shape: RoundedRectangleBorder(
-      //     borderRadius: params!.borderRadius!,
-      //     side: BorderSide(
-      //       width: params!.borderWidth ?? 0.0,
-      //       color: params!.borderColor ?? Colors.black,
-      //     ),
-      //   ),
-       
-      // ),
      
      
-      child:(params!.hasIcon==true)? Container(
-        width:params!.buttonWidth,
-        height: params!.buttonHeight ,
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Padding(
-                padding:  EdgeInsets.only(left:params!.iconPaddingRight,right: params!.iconPaddingLeft,top: params!.iconPaddingTop,bottom: params!.iconPaddingBottom),
-                child: Icon(params!.prefixIcon,color:Colors.black,),
-              ),
-              // SizedBox(width:),
-              Text(params!.data!,style:textStyle) 
-            ],
-          ),
-        ),
-      )
-      
-      :Text(params!.data!,style:textStyle) 
+     
+        
+       
+        child: (params!.hasIcon == true)
+            ? Container(
+                width: params!.buttonWidth,
+                height: params!.buttonHeight,
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: params!.iconPaddingRight,
+                            right: params!.iconPaddingLeft,
+                            top: params!.iconPaddingTop,
+                            bottom: params!.iconPaddingBottom),
+                        child: Icon(
+                          params!.prefixIcon,
+                          color: Colors.black,
+                        ),
+                      ),
+                      // SizedBox(width:),
+                      Text(params!.data!, style: textStyle)
+                    ],
+                  ),
+                ),
+              )
+            : Text(params!.data!, style: textStyle));
+  }
+  
+  TextStyle myButtonFonts(
+      String enteredFont) {
+    switch (enteredFont) {
+      case 'Roboto Slab':
+        return GoogleFonts.robotoSlab(
+          
+      color:(params!.showPreview)?params!.disabledTextColor: params!.textColor,
+      fontWeight: params!.fontWeight,
+      fontSize: params!.fontSize,
+      height: params!.lineHeight,
+      letterSpacing: params!.letterSpacing,
+      decoration: params!.subDecoration,
+      fontStyle: params!.textFontStyle,
     );
-  
-  
-  
+      case 'Mukta':
+        return GoogleFonts.mukta(
+            color:(params!.showPreview)?params!.disabledTextColor: params!.textColor,
+      fontWeight: params!.fontWeight,
+      fontSize: params!.fontSize,
+      height: params!.lineHeight,
+      letterSpacing: params!.letterSpacing,
+      decoration: params!.subDecoration,
+      fontStyle: params!.textFontStyle,);
+      case 'montserrat':
+        return GoogleFonts.montserrat(
+            color:(params!.showPreview)?params!.disabledTextColor: params!.textColor,
+      fontWeight: params!.fontWeight,
+      fontSize: params!.fontSize,
+      height: params!.lineHeight,
+      letterSpacing: params!.letterSpacing,
+      decoration: params!.subDecoration,
+      fontStyle: params!.textFontStyle,);
+      case 'Poppins':
+        return GoogleFonts.robotoSlab(
+            color:(params!.showPreview)?params!.disabledTextColor: params!.textColor,
+      fontWeight: params!.fontWeight,
+      fontSize: params!.fontSize,
+      height: params!.lineHeight,
+      letterSpacing: params!.letterSpacing,
+      decoration: params!.subDecoration,
+      fontStyle: params!.textFontStyle,);
+      case 'Oswald':
+        return GoogleFonts.oswald(
+            color:(params!.showPreview)?params!.disabledTextColor: params!.textColor,
+      fontWeight: params!.fontWeight,
+      fontSize: params!.fontSize,
+      height: params!.lineHeight,
+      letterSpacing: params!.letterSpacing,
+      decoration: params!.subDecoration,
+      fontStyle: params!.textFontStyle,);
+     
+
+      case 'Lato':
+        return GoogleFonts.lato(
+            color:(params!.showPreview)?params!.disabledTextColor: params!.textColor,
+      fontWeight: params!.fontWeight,
+      fontSize: params!.fontSize,
+      height: params!.lineHeight,
+      letterSpacing: params!.letterSpacing,
+      decoration: params!.subDecoration,
+      fontStyle: params!.textFontStyle,);
+      case 'Young Serif':
+        return GoogleFonts.yeonSung(
+            color:(params!.showPreview)?params!.disabledTextColor: params!.textColor,
+      fontWeight: params!.fontWeight,
+      fontSize: params!.fontSize,
+      height: params!.lineHeight,
+      letterSpacing: params!.letterSpacing,
+      decoration: params!.subDecoration,
+      fontStyle: params!.textFontStyle,);
+      case 'Teko':
+        return GoogleFonts.teko(
+            color:(params!.showPreview)?params!.disabledTextColor: params!.textColor,
+      fontWeight: params!.fontWeight,
+      fontSize: params!.fontSize,
+      height: params!.lineHeight,
+      letterSpacing: params!.letterSpacing,
+      decoration: params!.subDecoration,
+      fontStyle: params!.textFontStyle,);
+      case 'Gabarito':
+        return GoogleFonts.gabriela(
+             color:(params!.showPreview)?params!.disabledTextColor: params!.textColor,
+      fontWeight: params!.fontWeight,
+      fontSize: params!.fontSize,
+      height: params!.lineHeight,
+      letterSpacing: params!.letterSpacing,
+      decoration: params!.subDecoration,
+      fontStyle: params!.textFontStyle,);
+      default:
+        return GoogleFonts.lato(
+           color:(params!.showPreview)?params!.disabledTextColor: params!.textColor,
+      fontWeight: params!.fontWeight,
+      fontSize: params!.fontSize,
+      height: params!.lineHeight,
+      letterSpacing: params!.letterSpacing,
+      decoration: params!.subDecoration,
+      fontStyle: params!.textFontStyle,);
+    }
   }
+
 }
-
-class TextButtonParser extends WidgetParser {
-  @override
-  Map<String, dynamic>? export(Widget? widget, BuildContext? buildContext) {
-    var realWidget = widget as TextButton;
-    var color = realWidget.style?.foregroundColor != null
-        ? realWidget.style?.foregroundColor
-            ?.resolve(MaterialState.values.toSet())
-        : null;
-    var backgroundColor = realWidget.style?.backgroundColor != null
-        ? realWidget.style?.backgroundColor
-            ?.resolve(MaterialState.values.toSet())
-        : null;
-    var overlayColor = realWidget.style?.overlayColor != null
-        ? realWidget.style?.overlayColor?.resolve(MaterialState.values.toSet())
-        : null;
-    var shadowColor = realWidget.style?.shadowColor != null
-        ? realWidget.style?.shadowColor?.resolve(MaterialState.values.toSet())
-        : null;
-    var elevation = realWidget.style?.elevation != null
-        ? realWidget.style?.elevation?.resolve(MaterialState.values.toSet())
-        : null;
-
-    var edgeInsetsGeometry = realWidget.style?.padding != null
-        ? realWidget.style?.padding?.resolve(MaterialState.values.toSet())
-            as EdgeInsets?
-        : null;
-    var textStyle2 = realWidget.style?.textStyle != null
-        ? realWidget.style?.textStyle?.resolve(MaterialState.values.toSet())
-        : null;
-    var map = <String, dynamic>{
-      "type": widgetName,
-      "foregroundColor": color != null ? color.value.toRadixString(16) : null,
-      "backgroundColor": backgroundColor != null
-          ? backgroundColor.value.toRadixString(16)
-          : null,
-      "overlayColor":
-          overlayColor != null ? overlayColor.value.toRadixString(16) : null,
-      "shadowColor":
-          shadowColor != null ? shadowColor.value.toRadixString(16) : null,
-      "elevation": elevation,
-      "padding": edgeInsetsGeometry != null
-          ? "${edgeInsetsGeometry.left},${edgeInsetsGeometry.top},${edgeInsetsGeometry.right},${edgeInsetsGeometry.bottom}"
-          : null,
-      "textStyle": exportTextStyle(textStyle2),
-      "child": DynamicWidgetBuilder.export(realWidget.child, buildContext)
-    };
-    return map;
-  }
-
-  @override
-  Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener? listener,ProjectInfo projectInfo) {
-    dynamic child = DynamicWidgetBuilder.buildFromMap(
-          map['child'], buildContext, listener,projectInfo)!;
-    String? clickEvent =
-        map.containsKey("click_event") ? map['click_event'] : "";
-
-    return TextButton(
-      onPressed: () {
-        listener!.onClicked("TextButton",clickEvent,{});
-      },
-      style: ButtonStyle(
-        foregroundColor: map.containsKey("foregroundColor")
-            ? MaterialStateProperty.all(parseHexColor(map["foregroundColor"]))
-            : null,
-        backgroundColor: map.containsKey("backgroundColor")
-            ? MaterialStateProperty.all(parseHexColor(map["backgroundColor"]))
-            : null,
-        overlayColor: map.containsKey("overlayColor")
-            ? MaterialStateProperty.all(parseHexColor(map["overlayColor"]))
-            : null,
-        shadowColor: map.containsKey("shadowColor")
-            ? MaterialStateProperty.all(parseHexColor(map["shadowColor"]))
-            : null,
-        elevation: map.containsKey("elevation")
-            ? MaterialStateProperty.all(map["elevation"])
-            : null,
-        padding: map.containsKey("padding")
-            ? MaterialStateProperty.all(parseEdgeInsetsGeometry(map["padding"]))
-            : null,
-        textStyle: map.containsKey("textStyle")
-            ? MaterialStateProperty.all(parseTextStyle(map["textStyle"]))
-            : null,
-        alignment: map.containsKey("alignment")
-            ? parseAlignment(map["alignment"])
-            : null,
-      ),
-      child: Text("akhilaaa",style: TextStyle(color: Colors.white),)
-      // Row(
-      //   children: [
-      //     Icon(Icons.settings,color:Colors.black,),
-      //     child
-      //   ],
-      // )
-    );
-  }
-
-  @override
-  String get widgetName => "TextButton";
-
-  @override
-  Type get widgetType => TextButton;
-}
-   
-

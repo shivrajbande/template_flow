@@ -47,6 +47,9 @@ import 'package:dynamic_widget/dynamic_widget/basic/switch_widget_parser.dart';
 import 'dynamic_widget/basic/cliprrect_widget_parser.dart';
 import 'dynamic_widget/basic/overflowbox_widget_parser.dart';
 import 'dynamic_widget/basic/rotatedbox_widget_parser.dart';
+import 'package:dynamic_widget/dynamic_widget/basic/rich_text_parser.dart';
+import 'dynamic_widget/basic/dropdown_widget_parser.dart';
+
 
 class DynamicWidgetBuilder {
   static final Logger log = Logger('DynamicWidget');
@@ -97,9 +100,12 @@ class DynamicWidgetBuilder {
     PrintParser(),
     RadioButtonListTileParser(),
     CheckBoxWidgetParser(),
+    NavigationParser(null,null),
+    RichTextWidgetParser(),
     SwitchWidgetParser(),
-    NavigationParser(null,null)
-   
+    NavigationParser(null,null),
+    InLineSpan(),
+    DropDownWidgetParser(),
   ];
 
   static final _widgetNameParserMap = <String, WidgetParser>{};

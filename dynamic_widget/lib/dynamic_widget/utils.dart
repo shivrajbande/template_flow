@@ -4,6 +4,7 @@ import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:dynamic_widget/dynamic_widget/basic/textfield_widget_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/drop_cap_text.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
  
  
 TextAlign parseTextAlign(String? textAlignString) {
@@ -382,6 +383,9 @@ List<String> parseListString(String listString) {
     return [];
   }
 }
+
+
+
 TextStyle? parseTextStyle(Map<String, dynamic>? map) {
   if (map == null) {
     return null;
@@ -398,17 +402,113 @@ TextStyle? parseTextStyle(Map<String, dynamic>? map) {
   FontStyle fontStyle =
       'italic' == map['fontStyle'] ? FontStyle.italic : FontStyle.normal;
  
-  return TextStyle(
-    color: parseHexColor(color),
-    debugLabel: debugLabel,
-    decoration: parseTextDecoration(decoration),
-    fontSize: fontSize,
-    letterSpacing: letterSpacing,
-    height: lineHeight,
-    fontFamily: fontFamily,
-    fontStyle: fontStyle,
-    fontWeight: parseFontWeight(fontWeight),
-  );
+
+ switch (fontFamily) {
+    case 'robotoSlab':
+      return GoogleFonts.robotoSlab(
+        color: parseHexColor(color),
+        decoration: parseTextDecoration(decoration),
+        fontSize: fontSize,
+        letterSpacing: letterSpacing,
+        height: lineHeight,
+        fontStyle: fontStyle,
+        fontWeight: parseFontWeight(fontWeight),
+      );
+      case 'Mukta':
+      return GoogleFonts.mukta(
+        color: parseHexColor(color),
+        decoration: parseTextDecoration(decoration),
+        fontSize: fontSize,
+        letterSpacing: letterSpacing,
+        height: lineHeight,
+        fontStyle: fontStyle,
+        fontWeight: parseFontWeight(fontWeight),
+      );
+      case 'montserrat':
+      return GoogleFonts.montserrat(
+        color: parseHexColor(color),
+        decoration: parseTextDecoration(decoration),
+        fontSize: fontSize,
+        letterSpacing: letterSpacing,
+        height: lineHeight,
+        fontStyle: fontStyle,
+        fontWeight: parseFontWeight(fontWeight),
+      );
+      case 'Poppins':
+      return GoogleFonts.poppins(
+        color: parseHexColor(color),
+        decoration: parseTextDecoration(decoration),
+        fontSize: fontSize,
+        letterSpacing: letterSpacing,
+        height: lineHeight,
+        fontStyle: fontStyle,
+        fontWeight: parseFontWeight(fontWeight),
+      );
+      case 'Oswald':
+      return GoogleFonts.oswald(
+        color: parseHexColor(color),
+        decoration: parseTextDecoration(decoration),
+        fontSize: fontSize,
+        letterSpacing: letterSpacing,
+        height: lineHeight,
+        fontStyle: fontStyle,
+        fontWeight: parseFontWeight(fontWeight),
+      );
+      case 'Lato':
+      return GoogleFonts.lato(
+        color: parseHexColor(color),
+        decoration: parseTextDecoration(decoration),
+        fontSize: fontSize,
+        letterSpacing: letterSpacing,
+        height: lineHeight,
+        fontStyle: fontStyle,
+        fontWeight: parseFontWeight(fontWeight),
+      );
+      case 'Young Serif':
+      return GoogleFonts.yeonSung(
+        color: parseHexColor(color),
+        decoration: parseTextDecoration(decoration),
+        fontSize: fontSize,
+        letterSpacing: letterSpacing,
+        height: lineHeight,
+        fontStyle: fontStyle,
+        fontWeight: parseFontWeight(fontWeight),
+      );
+      case 'Teko':
+      return GoogleFonts.teko(
+        color: parseHexColor(color),
+        decoration: parseTextDecoration(decoration),
+        fontSize: fontSize,
+        letterSpacing: letterSpacing,
+        height: lineHeight,
+        fontStyle: fontStyle,
+        fontWeight: parseFontWeight(fontWeight),
+      );
+      case 'Gabarito':
+      return GoogleFonts.gabriela(
+        color: parseHexColor(color),
+        decoration: parseTextDecoration(decoration),
+        fontSize: fontSize,
+        letterSpacing: letterSpacing,
+        height: lineHeight,
+        fontStyle: fontStyle,
+        fontWeight: parseFontWeight(fontWeight),
+      );
+   
+    default:
+      // Return a default font or handle the case where fontFamily is not recognized
+      return GoogleFonts.lato(
+        // Provide default TextStyle properties
+        color: parseHexColor(color),
+        decoration: parseTextDecoration(decoration),
+        fontSize: fontSize,
+        letterSpacing: letterSpacing,
+        height: lineHeight,
+        fontStyle: fontStyle,
+        fontWeight: parseFontWeight(fontWeight),
+      );
+  }
+ 
 }
  
 Map<String, dynamic>? exportTextStyle(TextStyle? textStyle) {

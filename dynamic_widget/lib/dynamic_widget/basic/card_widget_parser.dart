@@ -1,5 +1,3 @@
-// ignore_for_file: body_might_complete_normally_nullable, unused_local_variable
-
 import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:dynamic_widget/dynamic_widget/common/rounded_rectangle_border_parser.dart';
 import 'package:dynamic_widget/dynamic_widget/utils.dart';

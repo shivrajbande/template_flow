@@ -18,7 +18,6 @@ class ListViewWidgetParser extends WidgetParser {
     }
 
     var reverse = map.containsKey("reverse") ? map['reverse'] : false;
-    var shrinkWrap = map.containsKey("shrinkWrap") ? map["shrinkWrap"] : false;
     var cacheExtent =
         map.containsKey("cacheExtent") ? map["cacheExtent"]?.toDouble() : 0.0;
     var padding = map.containsKey('padding')
@@ -32,23 +31,42 @@ class ListViewWidgetParser extends WidgetParser {
     var loadMoreUrl =
         map.containsKey("loadMoreUrl") ? map["loadMoreUrl"] : null;
     var isDemo = map.containsKey("isDemo") ? map["isDemo"] : false;
+    var isAddSpace = map.containsKey("isAddSpace") ? map["isAddSpace"] : 0.0;
+    var startSpace = map.containsKey("startSpace") ? map["startSpace"] : 2.0;
+    var endSpace = map.containsKey("endSpace") ? map["endSpace"] : 2.0;
+    var applyToStartandEnd = map.containsKey("applyToStartandEnd") ? map["applyToStartandEnd"] :false;
+    var height = map.containsKey("height") ? map["height"] : 362.0;
+    var width = map.containsKey("width") ? map["width"] : 230.0;
+    var primary = map.containsKey("primary") ? map["primary"] : true;
+    var shrinkWrap = map.containsKey("shrinkWrap") ? map["shrinkWrap"] : true;
 
     var params = new ListViewParams(
         scrollDirection: scrollDirection,
         reverse: reverse,
-        shrinkWrap: shrinkWrap,
         cacheExtent: cacheExtent,
         padding: padding,
         itemExtent: itemExtent,
         children: children,
         pageSize: pageSize,
         loadMoreUrl: loadMoreUrl,
-        isDemo: isDemo);
+        isDemo: isDemo,
+        isAddSpace:isAddSpace,
+        startSpace: startSpace,
+        endSpace: endSpace,
+        applyToStartandEnd:applyToStartandEnd,
+        height: height,
+        width: width,
+        primary:primary,
+        shrinkWrap:shrinkWrap
+        );
 
-    return Container(
-        height: MediaQuery.of(buildContext).size.height,
-        width: MediaQuery.of(buildContext).size.width / 3.2,
-        child: new ListViewWidget(params, buildContext, projectInfo));
+    return 
+    // Container(
+    //     height: MediaQuery.of(buildContext).size.height,
+    //     width: MediaQuery.of(buildContext).size.width / 3.2,
+    //     child: new 
+       new ListViewWidget(params, buildContext, projectInfo);
+        // );
   }
 
   @override
@@ -172,21 +190,33 @@ class _ListViewWidgetState extends State<ListViewWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      scrollDirection: _params.scrollDirection ?? Axis.vertical,
-      reverse: _params.reverse ?? false,
-      shrinkWrap: _params.shrinkWrap ?? false,
-      cacheExtent: _params.cacheExtent,
-      padding: _params.padding,
-      itemCount: loadCompleted ? _items.length : _items.length + 1,
-      itemBuilder: (context, index) {
-        if (index == _items.length) {
-          return _buildProgressIndicator();
-        } else {
-          return _items[index]!;
-        }
+    return Container(
+      padding: EdgeInsets.only(top: _params.applyToStartandEnd!?
+      _params.startSpace!:_params.isAddSpace!
+      ,bottom: _params.applyToStartandEnd!?_params.endSpace!:_params.isAddSpace!),
+      height:_params.height,
+      width:_params.width,
+      child: ListView.separated(
+        separatorBuilder: (BuildContext context, int index) {
+      // Add equal space (sized box) between items
+      return SizedBox(height:_params.isAddSpace ); // Adjust the height as needed
       },
-      controller: _scrollController,
+        scrollDirection: _params.scrollDirection ?? Axis.vertical,
+        reverse: _params.reverse ?? false,
+        shrinkWrap: _params.shrinkWrap ?? true,
+        primary: _params.primary,
+        cacheExtent: _params.cacheExtent,
+        padding: _params.padding,
+        itemCount: loadCompleted ? _items.length : _items.length + 1,
+        itemBuilder: (context, index) {
+          if (index == _items.length) {
+            return _buildProgressIndicator();
+          } else {
+            return _items[index]!;
+          }
+        },
+        // controller: _scrollController,
+      ),
     );
   }
 
@@ -238,7 +268,6 @@ class _ListViewWidgetState extends State<ListViewWidget> {
 class ListViewParams {
   Axis? scrollDirection;
   bool? reverse;
-  bool? shrinkWrap;
   double? cacheExtent;
   EdgeInsetsGeometry? padding;
   double? itemExtent;
@@ -255,11 +284,18 @@ class ListViewParams {
 
   //use for demo, if true, it will do the fake request.
   bool? isDemo;
+  double? isAddSpace;
+  double? startSpace;
+  double? endSpace;
+  bool? applyToStartandEnd;
+  double? height;
+  double? width;
+  bool? primary;
+  bool? shrinkWrap;
 
   ListViewParams(
       {this.scrollDirection,
       this.reverse,
-      this.shrinkWrap,
       this.cacheExtent,
       this.padding,
       this.itemExtent,
@@ -268,7 +304,16 @@ class ListViewParams {
       this.loadMoreUrl,
       this.isDemo,
       this.tempChild,
-      this.dataKey}) {
+      this.dataKey,
+      this.isAddSpace,
+      this.startSpace,
+      this.endSpace,
+      this.applyToStartandEnd,
+      this.height,
+      this.width,
+      this.shrinkWrap,
+      this.primary
+      }) {
     // assert(this.children != null || this.tempChild != null,
     //     "you must set one of [children] or [tempChild]");
     // if (this.tempChild != null) {
