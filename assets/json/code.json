@@ -1,8 +1,10 @@
 {
   "client_name": "Shiva",
-  "client_id": "Lddnvlp7BwrnCzhoTXla",
-  "project_id": "0c2fa61a-3282-4b02-ab6c-baf858ebe431",
+  "client_id": "6WE8K42UbQm18ExZuC70",
+  "project_id": "4d58f8b4-cbf3-4930-b4c7-fd4bd9d79738",
   "package_name": "com.mycompany.demo",
   "app_name": "demo",
   "project_name": "Default Project Name"
+  "home_page_name": "loginscreen"
+  
 }
