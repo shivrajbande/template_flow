@@ -92,6 +92,7 @@ jobs:
         run: mkdir -p apk
       
       - name: Download App Icon
+        if: github.event.inputs.app_icon_url != null
         run: |
             mkdir -p assets/images
             curl -o assets/images/app_icon.png "${{ inputs.app_icon_url }}"
