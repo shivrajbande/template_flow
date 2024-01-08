@@ -129,6 +129,7 @@ jobs:
           echo "Using app name provided in workflow dispatch: $APP_NAME"
           dart run rename_app:main all="$APP_NAME"
           flutter pub run change_app_package_name:main "$PACKAGE_NAME"
+          dart pub run flutter_launcher_icons
           git checkout master
           git add .
           git status
